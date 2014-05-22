@@ -1,0 +1,799 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+    <title>静态库包含静态库 - enjolras的专栏
+        - 博客频道 - CSDN.NET</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="都知道静态库是不能包含动态库的，那么静态库能不能包含静态库呢？以静态库的本质来说，理应是可以的，经过一番试验之后确定可行：第一步：创建静态库 libother.aother.h：#ifndef OTHER_H#define OTHER_Hextern C{	void vFuncOther();}#endifother.cpp：#inclu">
+    <script src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ga.js" async="" type="text/javascript"></script><script src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/jquery.js" type="text/javascript"></script>
+    <script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad.js"></script>
+        <!--new top-->
+       
+        <link rel="stylesheet" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/index.css">
+        <!--new top-->
+
+    <link rel="Stylesheet" type="text/css" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/style.css">
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/enjolras/rss/list">
+    <link rel="shortcut icon" href="http://csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/default.css">
+ 
+
+<link rel="stylesheet" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/font-awesome.css"><link type="text/css" rel="stylesheet" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/bdsstyle.css"><script src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/tracking.js" charset="utf-8" type="text/javascript"></script><script src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/main_002.js" charset="utf-8" type="text/javascript"></script><link href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/style_002.css" rel="stylesheet" type="text/css"><script src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/logger.js"></script></head>
+<body><div style="position: absolute; left: -1px; bottom: -1px; z-index: 0; width: 0px; height: 0px; overflow: hidden; visibility: hidden; display: none;" id="BAIDU_DUP_fp_wrapper"><iframe style="width: 0px; height: 0px; visibility: hidden; display: none;" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/o.htm" id="BAIDU_DUP_fp_iframe"></iframe></div><iframe style="display: none;" frameborder="0"></iframe><div style="display: block;" id="bdshare_s"><iframe id="bdsIfr" style="position:absolute;display:none;z-index:9999;" frameborder="0"></iframe><div style="display: none;" id="bdshare_l"><div id="bdshare_l_c"><h6>分享到</h6><ul><li><a href="#" class="bds_mshare mshare">一键分享</a></li><li><a href="#" class="bds_qzone qqkj">QQ空间</a></li><li><a href="#" class="bds_tsina xlwb">新浪微博</a></li><li><a href="#" class="bds_bdysc bdysc">百度云收藏</a></li><li><a href="#" class="bds_renren rrw">人人网</a></li><li><a href="#" class="bds_tqq txwb">腾讯微博</a></li><li><a href="#" class="bds_bdxc bdxc">百度相册</a></li><li><a href="#" class="bds_kaixin001 kxw">开心网</a></li><li><a href="#" class="bds_tqf txpy">腾讯朋友</a></li><li><a href="#" class="bds_tieba bdtb">百度贴吧</a></li><li><a href="#" class="bds_douban db">豆瓣网</a></li><li><a href="#" class="bds_tsohu shwb">搜狐微博</a></li><li><a href="#" class="bds_bdhome bdhome">百度新首页</a></li><li><a href="#" class="bds_sqq sqq">QQ好友</a></li><li><a href="#" class="bds_thx thx">和讯微博</a></li><li><a href="#" class="bds_more">更多...</a></li></ul><p><a href="#" class="goWebsite">百度分享</a></p></div></div></div>
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/html.js" type="text/javascript"></script><div class="csdn-toolbar csdn-toolbar-skin-black ">        <div class="container row center-block ">          <div class="col-md-3 pull-left logo clearfix"><a href="http://www.csdn.net/?ref=toolbar" title="CSDN首页" target="_blank" class="icon"></a><a title="频道首页" href="http://blog.csdn.net/?ref=toolbar_logo" target="_blank" class="img blog-icon"></a></div>          <div class="pull-right login-wrap unlogin">            <ul class="btns">              <li class="loginlink"><a href="https://passport.csdn.net/account/login?ref=toolbar" target="_top">登录&nbsp;</a>|<a target="_top" href="https://passport.csdn.net/account/register?ref=toolbar">&nbsp;注册</a></li>              <li class="search">                <div class="icon on-search-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <form action="http://so.csdn.net/search" method="get" target="_blank">                      <input value="toolbar" name="ref" accesskey="2" type="hidden">                      <div class="border">                        <input placeholder="搜索" name="q" accesskey="2" type="text"><span class="icon-enter-sm"></span>                      </div>                    </form>                  </div>                </div>              </li>              <li class="favor">                <div class="icon on-favor-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div style="display:none;" class="favor-success"><span class="msg">收藏成功</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <div style="display:none;" class="favor-failed"><span class="icon-danger-lg"></span><span class="msg">收藏失败，请重新收藏</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <form role="form" class="form-horizontal favor-form">                      <div class="form-group">                        <div class="clearfix">                          <label for="input-title" class="col-sm-2 control-label">标题</label>                          <div class="col-sm-10">                            <input value="静态库包含静态库 - enjolras的专栏 - 博客频道 - CSDN.NET" id="inputTitle" placeholder="" class="title form-control" type="text">                          </div>                        </div>                        <div class="alert alert-danger"><strong></strong>标题不能为空</div>                      </div>                      <div class="form-group">                        <label for="input-url" class="col-sm-2 control-label">网址</label>                        <div class="col-sm-10">                          <input value="http://blog.csdn.net/enjolras/article/details/7308107" id="input-url" placeholder="" class="url form-control" type="text">                        </div>                      </div>                      <div class="form-group">                        <label for="input-tag" class="col-sm-2 tag control-label">标签</label>                        <div class="col-sm-10">                          <input id="input-tag" class="form-control tag" type="text">                        </div>                      </div>                      <div class="form-group">                        <label for="input-description" class="description col-sm-2 control-label">摘要</label>                        <div class="col-sm-10">                          <textarea id="input-description" class="form-control description"></textarea>                        </div>                      </div>                      <div class="form-group">                        <div class="col-sm-offset-2 col-sm-10 ft">                          <div class="col-sm-4 pull-left">                            <div class="checkbox">                              <label>                                <input name="share" checked="checked" class="share" type="checkbox">公开                              </label>                            </div>                          </div>                          <div class="col-sm-8 pull-right favor-btns">                            <button type="button" class="cancel btn btn-default">取消</button>                            <button type="submit" class="submit btn btn-primary">收藏</button>                          </div>                        </div>                      </div>                    </form>                  </div>                </div>              </li>              <li class="notify">                <div style="display:none" class="number"></div>                <div style="display:none" class="icon-hasnotes-sm"></div>                <div id="header_notice_num"></div>                <div class="icon on-notify-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div id="note1" class="csdn_note">                      <div class="box"></div>                    <iframe src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/a.htm" allowtransparency="true" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent" frameborder="0"></iframe></div>                  </div>                </div>              </li>              <li class="ugc">                <div class="icon on-ugc-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <dl>                      <dt><a href="http://geek.csdn.net/news/expert?ref=toolbar" target="_blank" class="p-news clearfix"><em class="icon"></em><span>分享资讯</span></a></dt>                      <dt><a href="http://share.csdn.net/slides/new?ref=toolbar" target="_blank" class="p-doc clearfix"><em class="icon"></em><span>传PPT/文档</span></a></dt>                      <dt><a href="http://bbs.csdn.net/topics/new?ref=toolbar" target="_blank" class="p-ask clearfix"><em class="icon"></em><span>提问题</span></a></dt>                      <dt><a href="http://write.blog.csdn.net/postedit?ref=toolbar" target="_blank" class="p-blog clearfix"><em class="icon"></em><span>写博客</span></a></dt>                      <dt><a href="http://u.download.csdn.net/upload?ref=toolbar" target="_blank" class="p-src clearfix"><em class="icon"></em><span>传资源</span></a></dt>                      <dt><a href="https://code.csdn.net/projects/new?ref=toolbar" target="_blank" class="c-obj clearfix"><em class="icon"></em><span>创建项目</span></a></dt>                      <dt><a href="https://code.csdn.net/snippets/new?ref=toolbar" target="_blank" class="c-code clearfix"><em class="icon"></em><span>创建代码片</span></a></dt>                    </dl>                  </div>                </div>              </li>              <li class="profile">                <div class="icon on-profile-icon"><img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/100x100.jpg" class="curr-icon-img">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div class="bd">                      <dl class="clearfix">                        <dt class="pull-left img"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="avatar"><img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/100x100.jpg"></a></dt>                        <dd class="info"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="nickname"></a><a class="set-nick" href="https://passport.csdn.net/account/profile">设置昵称<span class="write-icon"></span></a><span class="dec"><a class="fill-dec" href="http://my.csdn.net/" target="_blank">编辑自我介绍，让更多人了解你<span class="write-icon"></span></a></span></dd>                      </dl>                    </div>                    <div class="ft clearfix"><a target="_blank" href="http://my.csdn.net/my/account/changepwd?ref=toolbar" class="pull-left"><span class="icon-cog"></span>帐号设置</a><a href="https://passport.csdn.net/account/logout?ref=toolbar" target="_top" class="pull-right "><span class="icon-signout"></span><span class="out">退出</span></a></div>                  </div>                </div>              </li>              <li class="apps">                <div class="icon on-apps-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>社区</h5>                      </dt>                      <dd> <a href="http://blog.csdn.net/?ref=toolbar" target="_blank">博客</a></dd>                      <dd> <a href="http://bbs.csdn.net/?ref=toolbar" target="_blank">论坛</a></dd>                      <dd> <a href="http://download.csdn.net/?ref=toolbar" target="_blank">下载</a></dd>                      <dd><a href="http://share.csdn.net/?ref=toolbar" target="_blank">Share</a></dd>                      <dd><a href="http://geek.csdn.net/?ref=toolbar" target="_blank">极客头条</a></dd>                    </dl>                  </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>服务</h5>                      </dt>                      <dd> <a href="https://code.csdn.net/?ref=toolbar" target="_blank">CODE</a></dd>                      <dd> <a href="http://hero.csdn.net/?ref=toolbar" target="_blank">英雄会</a></dd>                      <dd> <a href="http://huiyi.csdn.net/meeting?ref=toolbar" target="_blank">会议</a></dd>                      <dd> <a href="http://www.csto.com/?ref=toolbar" target="_blank">CSTO</a></dd>                    </dl>                  </div>                  <div class="detail last">                    <dl>                      <dt>                        <h5>俱乐部</h5>                      </dt>                      <dd> <a href="http://student.csdn.net/?ref=toolbar" target="_blank">高校俱乐部</a></dd>                      <dd> <a href="http://club.csdn.net/cto?ref=toolbar" target="_blank">CTO俱乐部</a></dd>                    </dl>                  </div>                </div>              </div>            </li>            </ul>          </div>        </div>    </div>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/enjolras">enjolras的专栏</a></h2>
+            <h3></h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+                <li id="btnContents"><a href="http://blog.csdn.net/enjolras?viewmode=contents"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_mulu'])">
+                    <img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/enjolras?viewmode=list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_zhaiyao'])">
+                    <img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/enjolras/rss/list"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_RSS'])">
+                    <img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ico_rss.gif">订阅</span></a></li>
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "enjolras";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/enjolras";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+<div class="notice tracking-ad" data-mod="popu_3"> 
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/25387451" target="_blank">
+<font color="blue">有奖征资源，博文分享有内涵
+</font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/25400391" target="_blank">
+<font color="red">4月推荐博文汇总 
+</font></a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/blogdevteam/article/details/26512525" target="_blank">
+<font color="blue">第六届中国云计算大会（大数据读书汇）
+</font></a>
+
+</div>                    <link href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/comment1.css" type="text/css" rel="stylesheet">
+<link href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/style1.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/main.js"></script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="http://blog.csdn.net/enjolras/article/details/7308107">
+        静态库包含静态库
+        </a></span>
+    </h1>
+</div>
+
+    <div class="article_manage">
+        <span class="link_categories">
+        分类：
+            <a href="http://blog.csdn.net/enjolras/article/category/727541" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">C/C++</a> 
+            <a href="http://blog.csdn.net/enjolras/article/category/1066400" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_fenlei']);">Linux</a> 
+        </span>
+    <span class="link_postdate">2012-02-29 22:53</span>
+    <span class="link_view" title="阅读次数">575人阅读</span>
+    <span class="link_comments" title="评论次数"><a href="#comments" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_pinglun'])">评论</a>(0)</span>
+    <span class="link_collect"><a href="javascript:void(0);" onclick="javascript:_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shoucang']);collectArticle('静态库包含静态库','7308107');return false;" title="收藏">收藏</a></span>
+    <span class="link_report"><a href="#report" onclick="javascript:_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_jubao']);report(7308107,2);return false;" title="举报">举报</a></span>
+    
+</div>
+<div class="tag2box"><a href="http://www.csdn.net/tag/object" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">object</a><a href="http://www.csdn.net/tag/makefile" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">makefile</a><a href="http://www.csdn.net/tag/reference" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">reference</a><a href="http://www.csdn.net/tag/%e6%b5%8b%e8%af%95" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">测试</a><a href="http://www.csdn.net/tag/%e5%b7%a5%e4%bd%9c" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">工作</a><a href="http://www.csdn.net/tag/function" target="_blank" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_tag']);">function</a></div>
+
+    
+<div id="article_content" class="article_content">
+
+<p>都知道静态库是不能包含动态库的，那么静态库能不能包含静态库呢？</p>
+<p>以静态库的本质来说，理应是可以的，经过一番试验之后确定可行：</p>
+<p><br>
+</p>
+<p>第一步：创建静态库 libother.a</p>
+<p>other.h：</p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 618px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_1" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_1" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="preprocessor">#ifndef&nbsp;OTHER_H</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="preprocessor">#define&nbsp;OTHER_H</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span><span class="keyword">extern</span><span>&nbsp;</span><span class="string">"C"</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span><span>&nbsp;vFuncOther();&nbsp;&nbsp;</span></span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li><li class=""><span><span class="preprocessor">#endif</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre style="display: none;" name="code" class="cpp">#ifndef OTHER_H
+#define OTHER_H
+
+extern "C"
+{
+	void vFuncOther();
+}
+#endif
+</pre>other.cpp：
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 857px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_2" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_2" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=2&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="preprocessor">#include&nbsp;"other.h"</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="preprocessor">#include&nbsp;&lt;iostream&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="keyword">using</span><span>&nbsp;</span><span class="keyword">namespace</span><span>&nbsp;std;&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span><span class="keyword">void</span><span>&nbsp;vFuncOther()&nbsp;&nbsp;</span></span></li><li class=""><span>{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;<span class="string">"vFuncOther&nbsp;is&nbsp;call."</span><span>&lt;&lt;endl;&nbsp;&nbsp;</span></span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">#include "other.h"
+#include &lt;iostream&gt;
+using namespace std;
+
+void vFuncOther()
+{
+	cout&lt;&lt;"vFuncOther is call."&lt;&lt;endl;
+}
+</pre>Makefile：
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 1096px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_3" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_3" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=3&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span>object&nbsp;=&nbsp;other.o&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>.PHONY&nbsp;<span class="keyword">default</span><span>&nbsp;:&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">default</span><span>&nbsp;:&nbsp;$(object)&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ar&nbsp;rsv&nbsp;libother.a&nbsp;$(object)&nbsp;&nbsp;</span></li><li class=""><span>other.o&nbsp;:&nbsp;other.cpp&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;$(CXX)&nbsp;$(CXXFLAG)&nbsp;-c&nbsp;other.cpp&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>.PHONY&nbsp;clean&nbsp;:&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>clean&nbsp;:&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;rm&nbsp;$(object)&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">object = other.o
+
+.PHONY default :
+default : $(object)
+	ar rsv libother.a $(object)
+other.o : other.cpp
+	$(CXX) $(CXXFLAG) -c other.cpp
+
+.PHONY clean : 
+clean :
+	rm $(object)</pre>输入make得到libother.a静态库文件
+<p></p>
+<p><br>
+</p>
+<p>第二步：创建包含libother.a的静态库libmy.a</p>
+<p>首先将第一步生成的libother.a静态库文件与头文件拷贝至libmy.a的工作目录。</p>
+<p>my.h：</p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 1549px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_4" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_4" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=4&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="preprocessor">#ifndef&nbsp;MY_H</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="preprocessor">#define&nbsp;MY_H</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span><span class="keyword">extern</span><span>&nbsp;</span><span class="string">"C"</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">void</span><span>&nbsp;vFuncMy();&nbsp;&nbsp;</span></span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span><span class="preprocessor">#endif</span><span>&nbsp;&nbsp;</span></span></li></ol></div><pre style="display: none;" name="code" class="cpp">#ifndef MY_H
+#define MY_H
+
+extern "C"
+{
+	void vFuncMy();
+}
+
+#endif</pre>my.cpp：
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 1806px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_5" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_5" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=5&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="preprocessor">#include&nbsp;"my.h"</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="preprocessor">#include&nbsp;"other.h"</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span><span class="preprocessor">#include&nbsp;&lt;iostream&gt;</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">using</span><span>&nbsp;</span><span class="keyword">namespace</span><span>&nbsp;std;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span><span class="keyword">void</span><span>&nbsp;vFuncMy()&nbsp;&nbsp;</span></span></li><li class="alt"><span>{&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;cout&lt;&lt;<span class="string">"vFuncMy&nbsp;will&nbsp;call&nbsp;vFuncOther&nbsp;later."</span><span>&lt;&lt;endl;&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;vFuncOther();&nbsp;&nbsp;</span></li><li class=""><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">#include "my.h"
+#include "other.h"
+#include &lt;iostream&gt;
+using namespace std;
+
+void vFuncMy()
+{
+	cout&lt;&lt;"vFuncMy will call vFuncOther later."&lt;&lt;endl;
+	vFuncOther();
+}</pre>Makefile:
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 2081px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_6" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_6" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=6&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span>object&nbsp;=&nbsp;my.o&nbsp;libother.a&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>.PHONY&nbsp;<span class="keyword">default</span><span>&nbsp;:&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">default</span><span>&nbsp;:&nbsp;$(object)&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ar&nbsp;rsv&nbsp;libmy.a&nbsp;$(object)&nbsp;&nbsp;</span></li><li class=""><span>my.o&nbsp;:&nbsp;my.cpp&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;$(CXX)&nbsp;$(CXXFLAG)&nbsp;-c&nbsp;my.cpp&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>.PHONY&nbsp;clean&nbsp;:&nbsp;&nbsp;&nbsp;</span></li><li class=""><span>clean&nbsp;:&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;rm&nbsp;$(object)&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">object = my.o libother.a
+
+.PHONY default :
+default : $(object)
+	ar rsv libmy.a $(object)
+my.o : my.cpp
+	$(CXX) $(CXXFLAG) -c my.cpp
+
+.PHONY clean : 
+clean :
+	rm $(object)</pre>值得注意的是，这个Makefile是错的，但静态库的编译不会有问题。
+<p></p>
+<p><br>
+</p>
+<p>第三步：用一个控制台程序测试静态库libmy.a<br>
+将第二步生成的libmy.a与my.h拷贝至控制台程序工作目录。</p>
+<p>main.cpp：</p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 2520px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_7" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_7" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=7&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span class="preprocessor">#include&nbsp;"my.h"</span><span>&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span><span class="datatypes">int</span><span>&nbsp;main()&nbsp;&nbsp;</span></span></li><li class=""><span>{&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;vFuncMy();&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span><span>&nbsp;0;&nbsp;&nbsp;</span></span></li><li class="alt"><span>}&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">#include "my.h"
+
+int main()
+{
+	vFuncMy();
+	return 0;
+}</pre>代码很简单，用g++编译并链接：
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 2741px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_8" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_8" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=8&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span>[enjolras@enjolras&nbsp;test]$&nbsp;g++&nbsp;-o&nbsp;main&nbsp;main.cpp&nbsp;-lmy&nbsp;-L./&nbsp;&nbsp;</span></span></li><li class=""><span>.<span class="comment">//libmy.a(my.o):&nbsp;In&nbsp;function&nbsp;`vFuncMy':</span><span>&nbsp;&nbsp;</span></span></li><li class="alt"><span>my.cpp:(.text+0x2b):&nbsp;undefined&nbsp;reference&nbsp;to&nbsp;`vFuncOther'&nbsp;&nbsp;</span></li><li class=""><span>collect2:&nbsp;ld&nbsp;returned&nbsp;1&nbsp;exit&nbsp;status&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">[enjolras@enjolras test]$ g++ -o main main.cpp -lmy -L./
+.//libmy.a(my.o): In function `vFuncMy':
+my.cpp:(.text+0x2b): undefined reference to `vFuncOther'
+collect2: ld returned 1 exit status
+</pre>报undefined reference，也就是说，在libmy.a中找不到vFuncOther。
+<p></p>
+<p>原因很简单：</p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 2948px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_9" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_9" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=9&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span>[enjolras@enjolras&nbsp;test]$&nbsp;ar&nbsp;t&nbsp;libmy.a&nbsp;&nbsp;&nbsp;</span></span></li><li class=""><span>my.o&nbsp;&nbsp;</span></li><li class="alt"><span>libother.a&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">[enjolras@enjolras test]$ ar t libmy.a 
+my.o
+libother.a
+</pre>libother.a中的other.o，被包多了一层，所以函数vFuncOther就找不到了，那解决办法就很简单了。
+<p></p>
+<p>修改第二步的Makefile：</p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 3137px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_10" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_10" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=10&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span>object&nbsp;=&nbsp;my.o&nbsp;&nbsp;</span></span></li><li class=""><span>&nbsp;&nbsp;</span></li><li class="alt"><span>.PHONY&nbsp;<span class="keyword">default</span><span>&nbsp;:&nbsp;&nbsp;</span></span></li><li class=""><span><span class="keyword">default</span><span>&nbsp;:&nbsp;$(object)&nbsp;&nbsp;</span></span></li><li class="alt"><span>&nbsp;&nbsp;&nbsp;&nbsp;ar&nbsp;x&nbsp;libother.a&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;ar&nbsp;rsv&nbsp;libmy.a&nbsp;*.o&nbsp;&nbsp;</span></li><li class="alt"><span>my.o&nbsp;:&nbsp;my.cpp&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;$(CXX)&nbsp;$(CXXFLAG)&nbsp;-c&nbsp;my.cpp&nbsp;&nbsp;</span></li><li class="alt"><span>&nbsp;&nbsp;</span></li><li class=""><span>.PHONY&nbsp;clean&nbsp;:&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>clean&nbsp;:&nbsp;&nbsp;</span></li><li class=""><span>&nbsp;&nbsp;&nbsp;&nbsp;rm&nbsp;$(object)&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">object = my.o
+
+.PHONY default :
+default : $(object)
+	ar x libother.a
+	ar rsv libmy.a *.o
+my.o : my.cpp
+	$(CXX) $(CXXFLAG) -c my.cpp
+
+.PHONY clean : 
+clean :
+	rm $(object)</pre>重新make之后，替换libmy.a再次测试：
+<p></p>
+<p></p>
+<div class="dp-highlighter bg_cpp"><div class="bar"><div class="tools"><b>[cpp]</b> <a href="#" class="ViewSource" title="view plain" onclick="dp.sh.Toolbar.Command('ViewSource',this);return false;">view plain</a><a href="#" class="CopyToClipboard" title="copy" onclick="dp.sh.Toolbar.Command('CopyToClipboard',this);return false;">copy</a><a href="#" class="PrintSource" title="print" onclick="dp.sh.Toolbar.Command('PrintSource',this);return false;">print</a><a href="#" class="About" title="?" onclick="dp.sh.Toolbar.Command('About',this);return false;">?</a><div style="position: absolute; left: 378px; top: 3448px; width: 18px; height: 18px; z-index: 99;"><embed id="ZeroClipboardMovie_11" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ZeroClipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_11" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=11&amp;width=18&amp;height=18" wmode="transparent" align="middle" height="18" width="18"></div></div></div><ol class="dp-cpp" start="1"><li class="alt"><span><span>[enjolras@enjolras&nbsp;test]$&nbsp;g++&nbsp;-o&nbsp;main&nbsp;main.cpp&nbsp;-lmy&nbsp;-L./&nbsp;&nbsp;</span></span></li><li class=""><span>[enjolras@enjolras&nbsp;test]$&nbsp;./main&nbsp;&nbsp;&nbsp;</span></li><li class="alt"><span>vFuncMy&nbsp;will&nbsp;call&nbsp;vFuncOther&nbsp;later.&nbsp;&nbsp;</span></li><li class=""><span>vFuncOther&nbsp;is&nbsp;call.&nbsp;&nbsp;</span></li></ol></div><pre style="display: none;" name="code" class="cpp">[enjolras@enjolras test]$ g++ -o main main.cpp -lmy -L./
+[enjolras@enjolras test]$ ./main 
+vFuncMy will call vFuncOther later.
+vFuncOther is call.
+</pre>done.
+<p></p>
+
+</div>
+
+
+
+<!-- Baidu Button BEGIN -->
+<div id="bdshare" class="bdshare_t bds_tools get-codes-bdshare" style="float: right;">
+<a href="#" title="分享到QQ空间" class="bds_qzone"></a>
+<a href="#" title="分享到新浪微博" class="bds_tsina"></a>
+<a href="#" title="分享到腾讯微博" class="bds_tqq"></a>
+<a href="#" title="分享到人人网" class="bds_renren"></a>
+<a href="#" title="分享到网易微博" class="bds_t163"></a>
+<span class="bds_more">更多</span>
+<a title="累计分享0次" href="#" class="shareCount">0</a>
+</div>
+<!-- Baidu Button END -->
+
+
+<!--192.168.100.34-->
+<ul class="article_next_prev">
+            <li class="prev_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian']);location.href='/enjolras/article/details/7243968';">上一篇</span><a href="http://blog.csdn.net/enjolras/article/details/7243968" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_shangyipian'])">glibc版本冲突导致的Floating point exception</a></li>
+            <li class="next_article"><span onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian']);location.href='/enjolras/article/details/7452277';">下一篇</span><a href="http://blog.csdn.net/enjolras/article/details/7452277" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_xiayipian'])">linux 多线程编程</a></li>
+</ul>
+
+<!-- Baidu Button BEGIN -->
+<script src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/bds_s_v2.js" type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434"></script>
+
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+</div>
+      <dl class="blog-associat-tag">
+        <dt>主题推荐</dt>
+        <dd>
+                <a href="http://www.csdn.net/tag/%E5%BA%93" target="_blank" class="blog-tage-red">库</a> 
+                <a href="http://www.csdn.net/tag/namespace" target="_blank" class="blog-tage-red">namespace</a> 
+                <a href="http://www.csdn.net/tag/%E6%8E%A7%E5%88%B6%E5%8F%B0" target="_blank" class="blog-tage-red">控制台</a> 
+                <a href="http://www.csdn.net/tag/iostream" target="_blank" class="blog-tage-red">iostream</a> 
+                <a href="http://www.csdn.net/tag/%E5%B7%A5%E4%BD%9C" target="_blank" class="blog-tage-red">工作</a> 
+        </dd>
+    </dl> 
+    <dl class="blog-ass-articl tracking-ad" data-mod="popu_17">
+        <dt><span>博文推荐</span></dt>
+            <dd>
+                <a href="http://blog.csdn.net/u014212336/article/details/26587021" title="拍婚纱照的5个小技巧，让你更美丽" target="_blank">拍婚纱照的5个小技巧，让你更美丽</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/u010227447/article/details/26582515" title="对java包的总结" target="_blank">对java包的总结</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/zhangfeng19880710/article/details/26560871" title="20140522" target="_blank">20140522</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/shenhuajie/article/details/26552869" title="职场规则，总有几条你不知道" target="_blank">职场规则，总有几条你不知道</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/zd_pg/article/details/26519197" title="裸辞后的一点感悟" target="_blank">裸辞后的一点感悟</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/lvtory/article/details/26526277" title="优秀RD的checklist" target="_blank">优秀RD的checklist</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/happyforest/article/details/26473883" title="c++几个常识简介(namespace)" target="_blank">c++几个常识简介(namespace)</a></dd>
+            <dd>
+                <a href="http://blog.csdn.net/louercab/article/details/26448587" title="ios上ZXing库的配置流程" target="_blank">ios上ZXing库的配置流程</a></dd>
+    </dl>
+
+
+
+    <div id="ad_cen">
+        <script type="text/javascript">            BAIDU_CLB_SLOT_ID = "117306";</script>
+        <script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/o.js"></script><div id="BAIDU_DUP_wrapper_117306_0"></div><script charset="utf-8" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ecom"></script><script charset="utf-8" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/fixed7o.js"></script><script type="text/javascript"><!--
+google_ad_client = "ca-pub-1076724771190722";
+/* blog正文下方728x90 */
+google_ad_slot = "4497271841";
+google_ad_width = 728;
+google_ad_height = 90;
+//-->
+</script>
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/show_ads.js">
+</script><ins style="display:inline-table;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><ins id="aswift_0_anchor" style="display:block;border:none;height:90px;margin:0;padding:0;position:relative;visibility:visible;width:728px;background-color:transparent"><iframe marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" onload="var i=this.id,s=window.google_iframe_oncopy,H=s&amp;&amp;s.handlers,h=H&amp;&amp;H[i],w=this.contentWindow,d;try{d=w.document}catch(e){}if(h&amp;&amp;d&amp;&amp;(!d.body||!d.body.firstChild)){if(h.call){setTimeout(h,0)}else if(h.match){try{h=s.upd(h,i)}catch(e){}w.location.replace(h)}}" id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;" frameborder="0" height="90" width="728"></iframe></ins></ins>
+    </div>
+    <script type="text/javascript">
+        //new Ad(4, 'ad_cen');
+    </script>
+<div id="comment_title" class="panel_head">
+    查看评论<a name="comments"></a></div>
+<div id="comment_list"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+<div id="comment_bar">
+</div>
+<div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:csdn.showLogin(function (dat) {js_logined(dat.data.userName);});">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fenjolras%2Farticle%2Fdetails%2F7308107">[注册]</a></div></div>
+<div class="announce">
+    * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+<script type="text/javascript">
+    var fileName = '7308107';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/comment.js"></script>
+    <div id="ad_bot">
+    <iframe src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad.htm" style="border-width: 0px; overflow: hidden; width: 746px; height: 0px;" scrolling="no" id="ad_frm_0" frameborder="0"></iframe></div>
+    <script type="text/javascript">
+    new Ad(5, 'ad_bot');
+    </script>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+      
+
+       <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop" style="" title="返回顶部" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_huidaodingbu'])">         
+         <img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        if($("#comment_content").length>0)
+        {
+            $("#quick-reply").show();
+
+            $("#quick-reply").click(function(){
+                setEditorFocus();
+            });
+        }       
+     
+        var d_top = $('#d-top-a');
+        document.onscroll = function ()
+        {
+            var scrTop = (document.body.scrollTop || document.documentElement.scrollTop);
+            if (scrTop > 500)
+            {
+                d_top.show();
+            } else
+            {
+                d_top.hide();
+            }
+        }
+        $('#d-top-a').click(function ()
+        {
+            scrollTo(0, 0);
+            this.blur();
+            return false;
+        });
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+<div class="tag_list">
+    <h5>
+        <a href="http://www.csdn.net/tag/" target="_blank">核心技术类目</a></h5>
+    <div class="classify">
+<a title="全部主题" href="http://www.csdn.net/tag" target="_blank" onclick="LogClickCount(this,336);">全部主题</a>
+<a title="Java" href="http://www.csdn.net/tag/Java" target="_blank" onclick="LogClickCount(this,336);">Java</a>
+<a title="VPN" href="http://www.csdn.net/tag/vpn" target="_blank" onclick="LogClickCount(this,336);">VPN</a>
+<a title="Android" href="http://www.csdn.net/tag/android" target="_blank" onclick="LogClickCount(this,336);">Android</a>
+<a title="iOS" href="http://www.csdn.net/tag/ios" target="_blank" onclick="LogClickCount(this,336);">iOS</a>
+<a title="ERP" href="http://www.csdn.net/tag/erp" target="_blank" onclick="LogClickCount(this,336);">ERP</a>
+<a title="IE10" href="http://www.csdn.net/tag/ie10" target="_blank" onclick="LogClickCount(this,336);">IE10</a>
+<a title="Eclipse" href="http://www.csdn.net/tag/eclipse" target="_blank" onclick="LogClickCount(this,336);">Eclipse</a>
+<a title="CRM" href="http://www.csdn.net/tag/crm" target="_blank" onclick="LogClickCount(this,336);">CRM</a>
+<a title="JavaScript" href="http://www.csdn.net/tag/javascript" target="_blank" onclick="LogClickCount(this,336);">JavaScript</a>
+<a title="Ubuntu" href="http://www.csdn.net/tag/ubuntu" target="_blank" onclick="LogClickCount(this,336);">Ubuntu</a>
+<a title="NFC" href="http://www.csdn.net/tag/nfc" target="_blank" onclick="LogClickCount(this,336);">NFC</a>
+<a title="WAP" href="http://www.csdn.net/tag/wap" target="_blank" onclick="LogClickCount(this,336);">WAP</a>
+<a title="jQuery" href="http://www.csdn.net/tag/jquery" target="_blank" onclick="LogClickCount(this,336);">jQuery</a>
+<a title="数据库" href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E5%BA%93" target="_blank" onclick="LogClickCount(this,336);">数据库</a>
+<a title="BI" href="http://www.csdn.net/tag/bi" target="_blank" onclick="LogClickCount(this,336);">BI</a>
+<a title="HTML5" href="http://www.csdn.net/tag/html5" target="_blank" onclick="LogClickCount(this,336);">HTML5</a>
+<a title="Spring" href="http://www.csdn.net/tag/spring" target="_blank" onclick="LogClickCount(this,336);">Spring</a>
+<a title="Apache" href="http://www.csdn.net/tag/apache" target="_blank" onclick="LogClickCount(this,336);">Apache</a>
+<a title="Hadoop" href="http://www.csdn.net/tag/hadoop" target="_blank" onclick="LogClickCount(this,336);">Hadoop</a>
+<a title=".NET" href="http://www.csdn.net/tag/.net" target="_blank" onclick="LogClickCount(this,336);">.NET</a>
+<a title="API" href="http://www.csdn.net/tag/api" target="_blank" onclick="LogClickCount(this,336);">API</a>
+<a title="HTML" href="http://www.csdn.net/tag/html" target="_blank" onclick="LogClickCount(this,336);">HTML</a>
+<a title="SDK" href="http://www.csdn.net/tag/sdk" target="_blank" onclick="LogClickCount(this,336);">SDK</a>
+<a title="IIS" href="http://www.csdn.net/tag/iis" target="_blank" onclick="LogClickCount(this,336);">IIS</a>
+<a title="Fedora" href="http://www.csdn.net/tag/fedora" target="_blank" onclick="LogClickCount(this,336);">Fedora</a>
+<a title="XML" href="http://www.csdn.net/tag/xml" target="_blank" onclick="LogClickCount(this,336);">XML</a>
+<a title="LBS" href="http://www.csdn.net/tag/lbs" target="_blank" onclick="LogClickCount(this,336);">LBS</a>
+<a title="Unity" href="http://www.csdn.net/tag/unity" target="_blank" onclick="LogClickCount(this,336);">Unity</a>
+<a title="Splashtop" href="http://www.csdn.net/tag/splashtop" target="_blank" onclick="LogClickCount(this,336);">Splashtop</a>
+<a title="UML" href="http://www.csdn.net/tag/uml" target="_blank" onclick="LogClickCount(this,336);">UML</a>
+<a title="components" href="http://www.csdn.net/tag/components" target="_blank" onclick="LogClickCount(this,336);">components</a>
+<a title="Windows Mobile" href="http://www.csdn.net/tag/windowsmobile" target="_blank" onclick="LogClickCount(this,336);">Windows Mobile</a>
+<a title="Rails" href="http://www.csdn.net/tag/rails" target="_blank" onclick="LogClickCount(this,336);">Rails</a>
+<a title="QEMU" href="http://www.csdn.net/tag/qemu" target="_blank" onclick="LogClickCount(this,336);">QEMU</a>
+<a title="KDE" href="http://www.csdn.net/tag/kde" target="_blank" onclick="LogClickCount(this,336);">KDE</a>
+<a title="Cassandra" href="http://www.csdn.net/tag/cassandra" target="_blank" onclick="LogClickCount(this,336);">Cassandra</a>
+<a title="CloudStack" href="http://www.csdn.net/tag/cloudstack" target="_blank" onclick="LogClickCount(this,336);">CloudStack</a>
+<a title="FTC" href="http://www.csdn.net/tag/ftc" target="_blank" onclick="LogClickCount(this,336);">FTC</a>
+<a title="coremail" href="http://www.csdn.net/tag/coremail" target="_blank" onclick="LogClickCount(this,336);">coremail</a>
+<a title="OPhone " href="http://www.csdn.net/tag/ophone" target="_blank" onclick="LogClickCount(this,336);">OPhone </a>
+<a title="CouchBase" href="http://www.csdn.net/tag/couchbase" target="_blank" onclick="LogClickCount(this,336);">CouchBase</a>
+<a title="云计算" href="http://www.csdn.net/tag/%E4%BA%91%E8%AE%A1%E7%AE%97" target="_blank" onclick="LogClickCount(this,336);">云计算</a>
+<a title="iOS6" href="http://www.csdn.net/tag/iOS6" target="_blank" onclick="LogClickCount(this,336);">iOS6</a>
+<a title="Rackspace " href="http://www.csdn.net/tag/rackspace" target="_blank" onclick="LogClickCount(this,336);">Rackspace </a>
+<a title="Web App" href="http://www.csdn.net/tag/webapp" target="_blank" onclick="LogClickCount(this,336);">Web App</a>
+<a title="SpringSide" href="http://www.csdn.net/tag/springside" target="_blank" onclick="LogClickCount(this,336);">SpringSide</a>
+<a title="Maemo" href="http://www.csdn.net/tag/maemo" target="_blank" onclick="LogClickCount(this,336);">Maemo</a>
+<a title="Compuware" href="http://www.csdn.net/tag/compuware" target="_blank" onclick="LogClickCount(this,336);">Compuware</a>
+<a title="大数据" href="http://www.csdn.net/tag/%E5%A4%A7%E6%95%B0%E6%8D%AE" target="_blank" onclick="LogClickCount(this,336);">大数据</a>
+<a title="aptech" href="http://www.csdn.net/tag/aptech" target="_blank" onclick="LogClickCount(this,336);">aptech</a>
+<a title="Perl" href="http://www.csdn.net/tag/perl" target="_blank" onclick="LogClickCount(this,336);">Perl</a>
+<a title="Tornado" href="http://www.csdn.net/tag/tornado" target="_blank" onclick="LogClickCount(this,336);">Tornado</a>
+<a title="Ruby" href="http://www.csdn.net/tag/ruby" target="_blank" onclick="LogClickCount(this,336);">Ruby</a>
+<a title="Hibernate" href="http://www.csdn.net/hibernate" target="_blank" onclick="LogClickCount(this,336);">Hibernate</a>
+<a title="ThinkPHP" href="http://www.csdn.net/tag/thinkphp" target="_blank" onclick="LogClickCount(this,336);">ThinkPHP</a>
+<a title="Spark" href="http://www.csdn.net/tag/spark" target="_blank" onclick="LogClickCount(this,336);">Spark</a>
+<a title="HBase" href="http://www.csdn.net/tag/hbase" target="_blank" onclick="LogClickCount(this,336);">HBase</a>
+<a title="Pure" href="http://www.csdn.net/tag/pure" target="_blank" onclick="LogClickCount(this,336);">Pure</a>
+<a title="Solr" href="http://www.csdn.net/tag/solr" target="_blank" onclick="LogClickCount(this,336);">Solr</a>
+<a title="Angular" href="http://www.csdn.net/tag/angular" target="_blank" onclick="LogClickCount(this,336);">Angular</a>
+<a title="Cloud Foundry" href="http://www.csdn.net/tag/cloudfoundry" target="_blank" onclick="LogClickCount(this,336);">Cloud Foundry</a>
+<a title="Redis" href="http://www.csdn.net/tag/redis" target="_blank" onclick="LogClickCount(this,336);">Redis</a>
+<a title="Scala" href="http://www.csdn.net/tag/scala" target="_blank" onclick="LogClickCount(this,336);">Scala</a>
+<a title="Django" href="http://www.csdn.net/tag/django" target="_blank" onclick="LogClickCount(this,336);">Django</a>
+<a title="Bootstrap" href="http://www.csdn.net/tag/bootstrap" target="_blank" onclick="LogClickCount(this,336);">Bootstrap</a>
+    </div>
+</div>
+
+                    <div class="clear">
+                    </div>
+                </div>
+            </div>
+            <div id="side">
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/enjolras" target="_blank">
+    <img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/1_enjolras.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/enjolras" class="user_name" target="_blank">enjolras</a></span>
+</div>
+<div class="interact">
+<a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_guanzhu'])"></a>
+<a href="javascript:void(0);" class="letter" onclick="loginto(1)" title="[发私信]"></a>
+</div>
+<div id="blog_medal">
+<div id="bms_box"></div></div>
+<ul id="blog_rank">
+    <li>访问：<span>34773次</span></li>
+    <li>积分：<span>718分</span></li>
+    <li>排名：<span>千里之外</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>29篇</span></li>
+    <li>转载：<span>42篇</span></li>
+    <li>译文：<span>0篇</span></li>
+    <li>评论：<span>8条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" class="blogsearch" title="请输入关键字" type="text"></span>
+        <input id="btnSubmit" value="搜索" title="search in blog" type="submit">
+        <input name="q" id="inputQ" type="hidden">
+        <input name="t" value="blog" type="hidden">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/756135" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">C#</a><span>(5)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/727541" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">C/C++</a><span>(45)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/727543" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">MFC</a><span>(17)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/756136" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">VisualStudio</a><span>(3)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/756137" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">WindowsMobie</a><span>(5)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/780896" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">工作记录</a><span>(5)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/727542" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">数据结构 算法</a><span>(0)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/756133" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">留用资料</a><span>(0)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/756134" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">设计模式</a><span>(2)</span>
+            </li>
+             <li>
+                <a href="http://blog.csdn.net/enjolras/article/category/1407766" onclick="_gaq.push(['_trackEvent','function', 'onclick', 'blog_articles_wenzhangfenlei']); ">操作系统</a><span>(1)</span>
+            </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/enjolras/article/month/2014/01">2014年01月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2013/04">2013年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2012/11">2012年11月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2012/08">2012年08月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2012/04">2012年04月</a><span>(2)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/enjolras/article/month/2012/02">2012年02月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2012/01">2012年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2011/09">2011年09月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2011/07">2011年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2011/05">2011年05月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2011/04">2011年04月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2011/02">2011年02月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2011/01">2011年01月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2010/12">2010年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/enjolras/article/month/2010/11">2010年11月</a><span>(43)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6024717" title="DISP_FUNCTION">DISP_FUNCTION</a><span>(3189)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6168311" title="string头文件与cstring头文件">string头文件与cstring头文件</a><span>(2695)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6458045" title="CMutex CSingleLock">CMutex CSingleLock</a><span>(2633)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6122355" title="内存泄露解决记录——窗口资源释放">内存泄露解决记录——窗口资源释放</a><span>(1215)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6339930" title="GetBuffer 与 ReleaseBuffer">GetBuffer 与 ReleaseBuffer</a><span>(864)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/7243968" title="glibc版本冲突导致的Floating point exception">glibc版本冲突导致的Floating point exception</a><span>(814)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/8210132" title="map与unordered_map效率的比较">map与unordered_map效率的比较</a><span>(766)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6152031" title="内存泄露解决记录——BSTR字符串释放与VARIANT类型的释放">内存泄露解决记录——BSTR字符串释放与VARIANT类型的释放</a><span>(733)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6164550" title="CFILEFIND的排序——递归与循环遍历目录中函数的剥离">CFILEFIND的排序——递归与循环遍历目录中函数的剥离</a><span>(725)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6024698" title="MFC字符串类型">MFC字符串类型</a><span>(669)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6458045" title="CMutex CSingleLock">CMutex CSingleLock</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6024698" title="MFC字符串类型">MFC字符串类型</a><span>(2)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/8868826" title="操作系统学习笔记：存储管理">操作系统学习笔记：存储管理</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6024717" title="DISP_FUNCTION">DISP_FUNCTION</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6025469" title="VC 查找进程，关闭进程">VC 查找进程，关闭进程</a><span>(1)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6103541" title="MFC遍历目录">MFC遍历目录</a><span>(0)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6117628" title="Technical Notes 17 : Destroying Window Objects（销毁窗口对象） ">Technical Notes 17 : Destroying Window Objects（销毁窗口对象） </a><span>(0)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6117648" title="调试用函数：用对话框显示LastError">调试用函数：用对话框显示LastError</a><span>(0)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6122355" title="内存泄露解决记录——窗口资源释放">内存泄露解决记录——窗口资源释放</a><span>(0)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/enjolras/article/details/6152031" title="内存泄露解决记录——BSTR字符串释放与VARIANT类型的释放">内存泄露解决记录——BSTR字符串释放与VARIANT类型的释放</a><span>(0)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend"><iframe src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad_002.htm" style="border-width: 0px; overflow: hidden; width: 183px; height: 0px;" scrolling="no" id="ad_frm_1" frameborder="0"></iframe></ul>
+</div>
+<script type="text/javascript">
+ new Ad(12, 'ad_commend');
+</script><div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/8868826#comments">操作系统学习笔记：存储管理</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/liliangbing123" class="user_name">doubel_山里娃</a>:
+不错，加油！
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6024717#comments">DISP_FUNCTION</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/lclbc" class="user_name">阿炳技术</a>:
+模棱两可
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6458045#comments">CMutex CSingleLock</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/enjolras" class="user_name">enjolras</a>:
+@liu1061:如果只是看实现随便找一个看就行了，我上面回复的那个是win ce的
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6458045#comments">CMutex CSingleLock</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/enjolras" class="user_name">enjolras</a>:
+我的电脑上在D:\Program Files (x86)\Microsoft Visual Stud...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6458045#comments">CMutex CSingleLock</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/liu1061" class="user_name">liu1061</a>:
+这个非常好啊，我看了后了解了很多，我想问问你是在那里看到的原码，我也要去看看其它的几种同步实现！请问...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6025469#comments">VC 查找进程，关闭进程</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/ljupcn" class="user_name">ljupcn</a>:
+郁闷，我的系统中没有psapi.h这个文件》》》
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6024698#comments">MFC字符串类型</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Halley07" class="user_name">Halley07</a>:
+
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/enjolras/article/details/6024698#comments">MFC字符串类型</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Halley07" class="user_name">Halley07</a>:
+拜读。
+    </p>
+    </li>
+</ul>
+</div>
+    </div>
+    <div class="clear">
+    </div>
+</div>
+
+            <div class="clear">
+            </div>
+        </div>
+        
+
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/newblog.js"></script>
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/showblogmedal.js"></script>
+<script type="text/javascript">
+    document.write('<script type="text/javascript" src="http://csdnimg.cn/pubfooter/js/publib_footer.js?' + Math.floor(new Date() / 120000).toString(36) + '="></' + 'script>');
+</script><script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/publib_footer.js"></script><link rel="stylesheet" type="text/css" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/pub_footer_2012.css"><div id="pub_footerall" class="pub_footerall"><dl><dt></dt> <dd><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a>|<a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a>|<a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a>|<a href="http://www.csdn.net/company/account.html" target="_blank">银行汇款帐号</a>|<a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a>|<a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a>|<a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a>|<a href="mailto:webmaster@csdn.net">问题报告</a>|<a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a>|<a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd><a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2355263776&amp;site=qq&amp;menu=yes" target="_blank" class="qq">网站客服</a> <a href="http://wpa.qq.com/msgrd?v=3&amp;uin=2251809102&amp;site=qq&amp;menu=yes" target="_blank" class="qq">杂志客服</a> <a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a> <a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a> <span class="phone" title="服务热线">400-600-2320</span></dd><dd>京&nbsp;ICP&nbsp;证&nbsp;070598&nbsp;号</dd><dd>北京创新乐知信息技术有限公司 版权所有</dd><dd>江苏乐知网络技术有限公司 提供商务支持</dd><dd>Copyright © 1999-2014, CSDN.NET, All Rights Reserved&nbsp;<a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div><div id="note1" class="csdn_note" style="display:none; position:absolute; z-index:9999; width:440px">  <span class="notice_top_arrow"><span class="inner"></span></span>  <div class="box"></div></div><div class="csdn_notice_tip" style="display:none; position:absolute; z-index:9990; width:170px">  <iframe src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/a_002.htm" scrolling="no" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent" frameborder="0"></iframe>  <div class="tip_text">您有<strong>0</strong>条新通知</div>  <a href="javascript:void%200" class="close2"></a></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/notify.js"></script>
+    <script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/login.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script><img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/pv.xml" border="0" height="0" width="0">
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/counter.js"></script><script type="text/javascript" charset="UTF-8" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/msg.js"></script>
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad-blog.js"></script><script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad-ms783_2.js"></script>
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/ad-ms786_3.js"></script>
+
+<script type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/count.js"></script><iframe src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/logs.htm" frameborder="0" height="0" width="0"></iframe>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a>"
+                    + "<a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+    });
+</script>
+
+    </div>
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" type="text/javascript" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/toolbar.js"></script>
+     <!--new top-->
+
+
+<iframe src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/log.swf" style="width: 1px; height: 1px; position: absolute; visibility: hidden;"></iframe><link type="text/css" rel="stylesheet" href="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/message_pop.css"><div id="_popup_msg_container" style="display: block;">
+
+<div style="display: none; height: 0px;" wistate="max" id="im_popupWindow_miniMsg" class="im_popupWindow">
+	<h6 class="wi_draggable"><span>
+</span><a onclick="_message_tips_pop('down');return false;"><img alt="close" class="founctionpic3" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/pic_close.gif"></a></h6>
+    <div id="im_popupWindow_miniMsgContent" class="wi_content">
+		<div class="kuai">
+			<div style="width:280px;"><a href="http://market.job.csdn.net/qdljx" target="_blank"><img src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/a.jpg" alt="" style="border:0;" title="" border="0"></a></div>
+		</div>
+	</div>
+<div class="content_qq"><span onclick="window.open('')" target="_blank"><font color="red">
+</font></span>
+ </div>
+ 
+ 
+</div>
+</div><img style="display: none;" src="%E9%9D%99%E6%80%81%E5%BA%93%E5%8C%85%E5%90%AB%E9%9D%99%E6%80%81%E5%BA%93%20-%20enjolras%E7%9A%84%E4%B8%93%E6%A0%8F%20-%20%E5%8D%9A%E5%AE%A2%E9%A2%91%E9%81%93%20-%20CSDN.NET_files/count_new.htm"></body></html>
