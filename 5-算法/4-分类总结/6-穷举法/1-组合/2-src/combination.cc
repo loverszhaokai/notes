@@ -11,18 +11,26 @@ combination(const int _N, const int _K)
     index[i] = i;
 
   bool is_finish = false;
-  // 
+  //
   // Do C(n,k) = _N! / _K!
-  // 
+  //
   while (!is_finish)
   {
-    while (index[_K] != _N + 1)
+    while (index[_K] != _N)
     {
-	  //
-	  // Do something ...
-	  //
+      //
+      // Do something ...
+      //
+      for (int j = 1; j <= _K; ++j)
+        printf("%d ", index[j]);
+      printf("\n");
+
       index[_K]++;
     }
+
+    for (int j = 1; j <= _K; ++j)
+      printf("%d ", index[j]);
+    printf("\n");
 
     for (int i = _K - 1; i >= 0; i--)
     {
@@ -41,6 +49,14 @@ combination(const int _N, const int _K)
       }
     }
   }
-  return max_value;
+  return 0;
 }
 
+
+int main(int argc, char *argv[])
+{
+
+  combination(10, 3);
+  
+  return 0;
+}
