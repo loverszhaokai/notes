@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <title>recursion - Headers Including Each Other in C++ - Stack Overflow</title>
+    <link rel="shortcut icon" href="http://cdn.sstatic.net/stackoverflow/img/favicon.ico?v=038622610830">
+    <link rel="apple-touch-icon image_src" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png?v=fd7230a85918">
+    <link rel="search" type="application/opensearchdescription+xml" title="Stack Overflow" href="http://stackoverflow.com/opensearch.xml">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:domain" content="stackoverflow.com">
+    <meta name="og:type" content="website">
+    <meta name="og:image" content="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon@2.png?v=fde65a5a78c6">
+    <meta name="og:title" content="Headers Including Each Other in C++">
+    <meta name="og:description" content="I'm a C++ newbie, but I wasn't able to find the answer to this (most likely trivial) question online.  I am having some trouble compiling some code where two classes include each other.  To begin, ...">
+    <meta name="og:url" content="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c">
+    <link rel="canonical" href="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c">
+
+    
+    
+    <script src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/quant.js" async=""></script><script src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/beacon.js" async=""></script><script src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/analytics.js" async=""></script><script src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/jquery.txt"></script>
+    <script src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/stub.js"></script>
+    <link rel="stylesheet" type="text/css" href="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/all.css">
+    
+    <link rel="alternate" type="application/atom+xml" title="Feed for question 'Headers Including Each Other in C++'" href="http://stackoverflow.com/feeds/question/396084">
+    <script>
+        
+        StackExchange.ready(function () {
+            StackExchange.using("postValidation", function () {
+                StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+            });
+
+            
+            StackExchange.question.init({votesCast:[],autoShowCommentHelp:true,showAnswerHelp:true,showAnswerBanWarning:true,totalCommentCount:1,shownCommentCount:1,highlightColor:'#F4A83D',backgroundColor:'#FFF',questionId:396084});
+
+            styleCode();
+
+                StackExchange.realtime.subscribeToQuestion('1', '396084');
+            
+                    });
+    </script>
+
+
+    <script>
+        StackExchange.init({"locale":"en","stackAuthUrl":"https://stackauth.com","serverTime":1402313292,"networkMetaHostname":"meta.stackexchange.com","styleCode":true,"enableUserHovercards":true,"site":{"name":"Stack Overflow","description":"Q&A for professional and enthusiast programmers","isNoticesTabEnabled":true,"recaptchaPublicKey":"6LdchgIAAAAAAJwGpIzRQSOFaO0pU6s44Xt8aTwc","recaptchaAudioLang":"en","nonAsciiTags":true,"enableSocialMediaInSharePopup":true},"user":{"fkey":"c46c988e240e53b446863bc603cead8a","isRegistered":true,"userType":3,"userId":2727738,"accountId":3232913,"gravatar":"<div class=\"gravatar-wrapper-32\"><img src=\"http://i.stack.imgur.com/x5Zyv.jpg?s=32&g=1\" alt=\"\"></div>","profileUrl":"http://stackoverflow.com/users/2727738/loverszhaokai","notificationsUnviewedCount":0,"inboxUnviewedCount":0,"ab":{"welcome_email":{"v":"4","g":1}}}});
+        StackExchange.using.setCacheBreakers({"js/prettify-full.en.js":"f86335bedf90","js/moderator.en.js":"0f409c40a6dd","js/full-anon.en.js":"b689e0fc153f","js/full.en.js":"df97caeaf2b8","js/wmd.en.js":"9caa06ade424","js/third-party/jquery.autocomplete.min.js":"e5f01e97f7c3","js/third-party/jquery.autocomplete.min.en.js":"","js/mobile.en.js":"52ede8e7fbc0","js/help.en.js":"4a00463b8aeb","js/tageditor.en.js":"3d32a02c91b8","js/tageditornew.en.js":"5f83d2822e8c","js/inline-tag-editing.en.js":"1a5cabd8e30a","js/revisions.en.js":"989c474e85a9","js/review.en.js":"bc54d6e4da32","js/tagsuggestions.en.js":"418b6018565f","js/post-validation.en.js":"53a3eeda69e2","js/explore-qlist.en.js":"24424eb238e8","js/events.en.js":"91fc3091983d"});
+        StackExchange.using("gps", function() {
+             StackExchange.gps.init(true);
+        });
+    </script>
+    
+</head>
+<body class="question-page new-topbar"><div id="noscript-padding"></div>
+    <noscript><div id="noscript-padding"></div></noscript>
+    <div id="notify-container"></div>
+    <div id="overlay-header"></div>
+    <div id="custom-header"></div>
+<div class="topbar">
+    <div class="topbar-wrapper">
+        
+        <div class="js-topbar-dialog-corral">
+
+<div class="topbar-dialog siteSwitcher-dialog dno">
+    <div class="header">
+        <h3><a href="http://stackoverflow.com/">current community</a></h3>
+    </div>
+    <div class="modal-content current-site-container">
+        <ul class="current-site">
+                <li>
+                        <div class="related-links">
+            <a href="http://chat.stackoverflow.com/" data-gps-track="site_switcher.click({ item_type:6 })">chat</a>
+                    <a href="http://blog.stackoverflow.com/" data-gps-track="site_switcher.click({ item_type:7 })">blog</a>
+                    <a href="http://stackoverflow.com/users/logout" data-gps-track="site_switcher.click({ item_type:8 })">log out</a>
+    </div>
+
+
+
+
+    <a href="http://stackoverflow.com/" class="current-site-link site-link js-gps-track" data-id="1" data-gps-track="
+        site_switcher.click({ item_type:3 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+    </a>
+
+                </li>
+                <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    
+
+
+
+    <a href="http://meta.stackoverflow.com/" class="site-link js-gps-track" data-id="552" data-gps-track="
+            site.switch({ target_site:552, item_type:3 }),
+        site_switcher.click({ item_type:4 })">
+        <div class="site-icon favicon favicon-stackoverflowmeta" title="Meta Stack Overflow"></div>
+        Meta Stack Overflow
+    </a>
+
+                </li>
+                            <li class="related-site">
+                        <div class="L-shaped-icon-container">
+        <span class="L-shaped-icon"></span>
+    </div>
+
+                    <a class="site-link" href="http://careers.stackoverflow.com/" data-gps-track="site_switcher.click({ item_type:9 })">
+                        <div class="site-icon favicon favicon-careers" title="Stack Overflow Careers"></div>
+                        Careers 2.0
+                    </a>
+                </li>
+        </ul>
+    </div>
+    
+    <div class="header" id="your-communities-header">
+        <h3>
+                <a href="http://stackexchange.com/users/3232913/?tab=accounts">your communities</a>
+        </h3>
+            
+            <a href="#" id="edit-pinned-sites">edit</a>
+            <a href="#" id="cancel-pinned-sites" style="display: none;">cancel</a>
+    </div>
+    <div class="modal-content" id="your-communities-section">
+            
+            <ul class="my-sites">
+                    <li>
+                        
+
+
+
+    <a href="http://stackoverflow.com/" class="site-link js-gps-track" data-id="1" data-gps-track="
+            site.switch({ target_site:1, item_type:3 }),
+        site_switcher.click({ item_type:1 })">
+        <div class="site-icon favicon favicon-stackoverflow" title="Stack Overflow"></div>
+        Stack Overflow
+            <span class="rep-score">1</span>
+    </a>
+
+                    </li>
+            </ul>
+                <div class="pinned-site-editor-container" style="display: none;">
+                    <input id="js-site-search-txt" class="site-filter-input" placeholder="Add a Stack Exchange community" type="text">
+                    <input id="pin-site-btn" value="Add" disabled="disabled" type="submit">
+                    <ul class="js-found-sites found-sites"></ul>
+                    <ul class="pinned-site-list sortable" data-custom-list="False">
+                    </ul>
+                    <input value="Save" id="save-pinned-sites-btn" disabled="disabled" type="submit">
+                    <a href="#" id="reset-pinned-sites">reset to default list</a>
+                </div>
+    </div>
+    
+    <div class="header">
+        <h3><a href="http://stackexchange.com/sites">more stack exchange communities</a></h3>
+    </div>
+    <div class="modal-content">
+            <div class="child-content"></div>
+    </div>
+</div>
+        </div>
+
+        <div class="network-items">
+            
+            <a href="http://stackexchange.com/" class="topbar-icon icon-site-switcher yes-hover js-site-switcher-button js-gps-track" data-gps-track="site_switcher.show" title="A list of all 126 Stack Exchange sites">
+                <span class="hidden-text">Stack Exchange</span>
+            </a>
+            
+                <a href="#" class="topbar-icon icon-inbox yes-hover js-inbox-button" title="Recent inbox messages">
+                    <span class="hidden-text">Inbox</span>
+                    <span class="unread-count" style="display:none"></span>
+                </a>
+                <a href="#" class="topbar-icon icon-achievements yes-hover js-achievements-button " data-unread-class="" title="Recent achievements: reputation, badges, and privileges earned">
+                    <span class="hidden-text">Reputation and Badges</span>
+                    <span class="unread-count" style="display:none">
+                        
+                    </span>
+                </a>
+        </div>
+
+        <div class="topbar-links">
+            
+                <a href="http://stackoverflow.com/users/2727738/loverszhaokai" class="profile-me">
+			        <div class="gravatar-wrapper-24" title="loverszhaokai"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/x5Zyv.jpg" alt="" class="avatar-me js-avatar-me"></div>
+                    <div class="links-container topbar-flair">
+
+                        <span class="reputation" title="your reputation: 1">
+                            1
+                        </span>
+                    </div>
+			    </a>
+                <div class="links-container">
+                    <span class="topbar-menu-links">
+
+                        
+                        
+
+    <a href="#" class="icon-help js-help-button" title="Help Center and other resources">
+        help
+        <span class="triangle"></span>
+    </a>
+    <div class="topbar-dialog help-dialog js-help-dialog dno">
+        <div class="modal-content">
+            <ul>
+                                    <li>
+                        <a href="http://stackoverflow.com/tour" class="js-gps-track" data-gps-track="help_popup.click({ item_type:1 })">
+                            Tour
+                            <span class="item-summary">
+                                Start here for a quick overview of the site
+                            </span>
+                        </a>
+                    </li>
+                <li>
+                    <a href="http://stackoverflow.com/help" class="js-gps-track" data-gps-track="help_popup.click({ item_type:4 })">
+                        Help Center
+                        <span class="item-summary">
+                            Detailed answers to any questions you might have
+                        </span>
+                    </a>
+                </li>
+                    <li>
+                        <a href="http://meta.stackoverflow.com/" class="js-gps-track" data-gps-track="help_popup.click({ item_type:2 })">
+                            Meta
+                            <span class="item-summary">
+                                Discuss the workings and policies of this site
+                            </span>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+                        
+                    </span>
+                </div>
+
+			<div class="search-container">
+                <form id="search" action="/search" method="get" autocomplete="off">
+                    <input name="q" placeholder="search" tabindex="1" autocomplete="off" maxlength="240" type="text">
+                </form>
+			</div>
+            	
+        </div>      
+    </div> 
+</div>
+<script>
+    StackExchange.ready(function () { StackExchange.topbar.init(); });
+</script>
+    <div class="container">
+        <div id="header">
+            <br class="cbt">
+            <div id="hlogo">
+                <a href="http://stackoverflow.com/">
+                    Stack Overflow
+                </a>
+            </div>
+            <div id="hmenus">
+                <div class="nav mainnavs ">
+                    <ul>
+                            <li class="youarehere"><a id="nav-questions" href="http://stackoverflow.com/questions">Questions</a></li>
+                            <li><a id="nav-tags" href="http://stackoverflow.com/tags">Tags</a></li>
+                            <li><a id="nav-users" href="http://stackoverflow.com/users">Users</a></li>
+                            <li><a id="nav-badges" href="http://stackoverflow.com/help/badges">Badges</a></li>
+                            <li><a id="nav-unanswered" href="http://stackoverflow.com/unanswered">Unanswered</a></li>
+                    </ul>
+                </div>
+                <div class="nav askquestion">
+                    <ul>
+                        <li>
+                            <a id="nav-askquestion" href="http://stackoverflow.com/questions/ask">Ask Question</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+
+
+
+        <div id="content">
+            
+
+<div itemscope="" itemtype="http://schema.org/Article">
+	<link itemprop="image" href="http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon.png">
+			<div id="question-header">
+			<h1 itemprop="name"><a href="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c" class="question-hyperlink">Headers Including Each Other in C++</a></h1>
+		</div>
+			<div id="mainbar">
+
+			
+
+<div class="question" data-questionid="396084" id="question">
+
+    <div class="everyonelovesstackoverflow" id="careers1">
+        </div>    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="396084" type="hidden">
+    <a class="vote-up-off" title="This question shows research effort; it is useful and clear (click again to undo)">up vote</a>
+    <span class="vote-count-post ">14</span>
+    <a class="vote-down-off" title="This question does not show any research effort; it is unclear or not useful (click again to undo)">down vote</a>
+    
+    <a class="star-off" href="#" title="This is a favorite question (click again to undo)">favorite</a>
+    <div class="favoritecount"><b>7</b></div>   
+
+</div>
+
+            </td>
+            
+<td class="postcell">
+<div>
+    <div class="post-text" itemprop="description">
+
+        <p>I'm a C++ newbie, but I wasn't able to find the answer to 
+this (most likely trivial) question online.  I am having some trouble 
+compiling some code where two classes include each other.  To begin, 
+should my #include statements go inside or outside of my macros?  In 
+practice, this hasn't seemed to matter.  However, in this particular 
+case, I am having trouble.  Putting the #include statements outside of 
+the macros causes the compiler to recurse and gives me "#include nested 
+too deeply" errors.  This seems to makes sense to me since neither class
+ has been fully defined before #include has been invoked.  However, 
+strangely, when I try to put them inside, I am unable to declare a type 
+of one of the classes, for it is not recognized.  Here is, in essence, 
+what I'm trying to compile:</p>
+
+<p>A.h</p>
+
+<pre><code>#ifndef A_H_
+#define A_H_
+
+#include "B.h"
+
+class A
+{
+    private:
+        B b;
+
+    public:
+        A() : b(*this) {}
+};
+
+#endif /*A_H_*/
+</code></pre>
+
+<p>B.h</p>
+
+<pre><code>#ifndef B_H_
+#define B_H_
+
+#include "A.h"
+
+class B
+{
+    private:
+            A&amp; a;
+
+    public:
+        B(A&amp; a) : a(a) {}
+ };
+
+#endif /*B_H_*/
+</code></pre>
+
+<p>main.cpp</p>
+
+<pre><code>#include "A.h"
+
+int main()
+{
+    A a;
+}
+</code></pre>
+
+<p>If it makes a difference, I am using g++ 4.3.2.</p>
+
+<p>And just to be clear, in general, where should #include statements 
+go?  I have always seen them go outside of the macros, but the scenario I
+ described clearly seems to break this principle.  Thanks to any helpers
+ in advance!  Please allow me to clarify my intent if I have made any 
+silly mistakes!</p>
+
+    </div>
+    <div class="post-taglist">
+        <a href="http://stackoverflow.com/questions/tagged/c%2b%2b" class="post-tag" title="show questions tagged 'c++'" rel="tag">c++</a> <a href="http://stackoverflow.com/questions/tagged/recursion" class="post-tag" title="show questions tagged 'recursion'" rel="tag">recursion</a> <a href="http://stackoverflow.com/questions/tagged/header" class="post-tag" title="show questions tagged 'header'" rel="tag">header</a> <a href="http://stackoverflow.com/questions/tagged/include" class="post-tag" title="show questions tagged 'include'" rel="tag">include</a> 
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/q/396084/2727738" title="short permalink to this question" class="short-link" id="link-post-396084">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/396084/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>        
+    </td>
+    <td class="post-signature" align="right">
+<div class="user-info user-hover">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/396084/revisions" title="show all edits to this post">edited <span title="2011-05-17 19:32:50Z" class="relativetime">May 17 '11 at 19:32</span></a>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/560648/lightness-races-in-orbit"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/3189f1e006358ec6c65481b9605cd0e3.jpg" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/560648/lightness-races-in-orbit">Lightness Races in Orbit</a><br>
+        <span class="reputation-score" title="reputation score 117348" dir="ltr">117k</span><span title="22 gold badges"><span class="badge1"></span><span class="badgecount">22</span></span><span title="176 silver badges"><span class="badge2"></span><span class="badgecount">176</span></span><span title="325 bronze badges"><span class="badge3"></span><span class="badgecount">325</span></span>
+    </div>
+</div>    </td>
+    <td class="post-signature owner">
+        <div class="user-info ">
+    <div class="user-action-time">
+        asked <span title="2008-12-28 11:13:39Z" class="relativetime">Dec 28 '08 at 11:13</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/48096/scott"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/f31ecf0f6fa487fd1b59f9f80132f6a1.png" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/48096/scott">Scott</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">676</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="13 silver badges"><span class="badge2"></span><span class="badgecount">13</span></span><span title="23 bronze badges"><span class="badge3"></span><span class="badgecount">23</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</div>
+</td>
+        </tr>
+                
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-396084" class="comments " data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+
+    <tr id="comment-6980880" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Classes don't include anything.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/560648/lightness-races-in-orbit" title="117348 reputation" class="comment-user">Lightness Races in Orbit</a>
+                <span class="comment-date" dir="ltr"><span title="2011-05-17 19:33:12Z" class="relativetime-clean">May 17 '11 at 19:33</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-396084" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">add comment</a>
+    </td>
+</tr>        </tbody></table>
+</div>
+
+
+			<div id="answers">
+
+				<a name="tab-top"></a>
+				<div id="answers-header">
+					<div class="subheader answers-subheader">
+						<h2>
+								6 Answers
+						</h2>
+						<div>
+							<div id="tabs">
+        <a href="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c?answertab=active#tab-top" title="Answers with the latest activity first">active</a>
+        <a href="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c?answertab=oldest#tab-top" title="Answers in the order they were provided">oldest</a>
+        <a class="youarehere" href="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c?answertab=votes#tab-top" title="Answers with the highest score first">votes</a>
+</div>
+						</div>
+					</div>    
+				</div>    
+
+
+
+
+  
+<a name="396094"></a>
+<div id="answer-396094" class="answer accepted-answer" data-answerid="396094">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="396094" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">29</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+
+        <span class="vote-accepted-on load-accepted-answer-date" title="loading when this answer was accepted...">accepted</span>
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text">
+            <p>By "the macros" I assume you mean the #ifndef include 
+guards?
+If so, #includes should definitely go inside. This is one of the major 
+reasons why include guards exists, because otherwise you easily end up 
+with an infinite recursion as you noticed.</p>
+
+<p>Anyway, the problem is that at the time you use the A and B classes 
+(inside the other class), they have not yet been declared. Look at what 
+the code looks like after the #includes have been processed:</p>
+
+<pre><code>//#include "A.h" start
+#ifndef A_H_
+#define A_H_
+
+//#include "B.h" start
+#ifndef B_H_
+#define B_H_
+
+//#include "A.h" start
+#ifndef A_H_ // A_H_ is already defined, so the contents of the file are skipped at this point
+#endif /*A_H_*/
+
+//#include "A.h" end
+
+class B
+{
+    private:
+            A&amp; a;
+
+    public:
+            B(A&amp; a) : a(a) {}
+ };
+
+#endif /*B_H_*/
+
+//#include "B.h" end
+
+class A
+{
+    private:
+            B b;
+
+    public:
+            A() : b(*this) {}
+};
+
+#endif /*A_H_*/
+//#include "A.h" end
+
+int main()
+{
+    A a;
+}
+</code></pre>
+
+<p>Now read the code. B is the first class the compiler encounters, and it includes an <code>A&amp;</code> member. What is <code>A</code>? The compiler hasn't encountered any definition of <code>A</code> yet, so it issues an error.</p>
+
+<p>The solution is to make a forward declaration of A. At some point before the definition of B, add a line <code>class A;</code></p>
+
+<p>This gives the compiler the necessary information, that A is a class.
+ We don't know anything else about it yet, but since B only needs to 
+include a reference to it, this is good enough. In the definition of A, 
+we need a member of type B (not a reference), so here the entire 
+definition of B has to be visible. Which it is, luckily.</p>
+
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/396094/2727738" title="short permalink to this answer" class="short-link" id="link-post-396094">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/396094/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2008-12-28 11:24:42Z" class="relativetime">Dec 28 '08 at 11:24</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/33213/jalf"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/ca5a23ced3d81ee8bfa73b8fdc1677c2.png" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/33213/jalf">jalf</a><br>
+        <span class="reputation-score" title="reputation score 140471" dir="ltr">140k</span><span title="22 gold badges"><span class="badge1"></span><span class="badgecount">22</span></span><span title="204 silver badges"><span class="badge2"></span><span class="badgecount">204</span></span><span title="425 bronze badges"><span class="badge3"></span><span class="badgecount">425</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-396094" class="comments " data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+
+    <tr id="comment-222521" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Yes!  This is what I realized soon after I posted my question.  Thank you very much for your detailed response.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/48096/scott" title="676 reputation" class="comment-user owner">Scott</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:30:29Z" class="relativetime-clean">Dec 28 '08 at 11:30</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-15804555" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">upvoted. Very clear.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/888051/alcott" title="3110 reputation" class="comment-user">Alcott</a>
+                <span class="comment-date" dir="ltr"><span title="2012-08-09 06:37:31Z" class="relativetime-clean">Aug 9 '12 at 6:37</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-396094" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</a>
+    </td>
+</tr>    </tbody></table>
+</div>
+<div class="everyonelovesstackoverflow" id="careers3">
+        </div>
+  
+<a name="396090"></a>
+<div id="answer-396090" class="answer" data-answerid="396090">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="396090" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">7</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text">
+            <blockquote>
+  <p>And just to be clear, in general, where should #include statements go?</p>
+</blockquote>
+
+<p>Inside the include guards, for the reason you mentioned.</p>
+
+<p>For your other problem: you need to forward-declare at least one of the classes, e.g. like this:</p>
+
+<pre><code>#ifndef B_H_
+#define B_H_
+
+// Instead of this:
+//#include "A.h"
+
+class A;
+
+class B
+{
+    private:
+            A&amp; a;
+
+    public:
+            B(A&amp; a) : a(a) {}
+ };
+
+#endif /*B_H_*/
+</code></pre>
+
+<p>This only works for declarations though: as soon as you really <em>use</em> an instance of <code>A</code>, you need to have defined it as well.</p>
+
+<p>By the way, what Nathan says is true: you can't put class instances into each other recursively. This only works with <em>pointers</em> (or, in your case, references) to instances.</p>
+
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/396090/2727738" title="short permalink to this answer" class="short-link" id="link-post-396090">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/396090/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/396090/revisions" title="show all edits to this post">edited <span title="2008-12-28 11:35:38Z" class="relativetime">Dec 28 '08 at 11:35</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        <br>
+        
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2008-12-28 11:20:08Z" class="relativetime">Dec 28 '08 at 11:20</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1968/konrad-rudolph"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/fdd630f72eef3790bfb4ef38d08c7f85.jpg" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1968/konrad-rudolph">Konrad Rudolph</a><br>
+        <span class="reputation-score" title="reputation score 227096" dir="ltr">227k</span><span title="48 gold badges"><span class="badge1"></span><span class="badgecount">48</span></span><span title="486 silver badges"><span class="badge2"></span><span class="badgecount">486</span></span><span title="746 bronze badges"><span class="badge3"></span><span class="badgecount">746</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-396090" class="comments " data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+
+    <tr id="comment-222514" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Note that you still can't have the classes include each other.  If A includes B then B can't include A</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/1084/nathan-fellman" title="30727 reputation" class="comment-user">Nathan Fellman</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:21:34Z" class="relativetime-clean">Dec 28 '08 at 11:21</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-222516" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Notice that class B merely 
+contains a reference to its corresponding class A object.  I don't think
+ that there is anything wrong with what I'm trying to do.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/48096/scott" title="676 reputation" class="comment-user owner">Scott</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:26:42Z" class="relativetime-clean">Dec 28 '08 at 11:26</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-396090" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</a>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="396092"></a>
+<div id="answer-396092" class="answer" data-answerid="396092">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="396092" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">3</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text">
+            <p>Oops!  I think I found a solution that involves putting 
+the #include statements inside the class and using a forward 
+declaration.  So, the code looks like:</p>
+
+<pre><code>#ifndef A_H_
+#define A_H_
+
+class B;
+
+#include "B.h"
+
+class A
+{
+    private:
+            B b;
+
+    public:
+            A() : b(*this) {}
+};
+
+#endif /*A_H_*/
+</code></pre>
+
+<p>And similarly for class B.  It compiles, but is this the best approach?</p>
+
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/396092/2727738" title="short permalink to this answer" class="short-link" id="link-post-396092">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/396092/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature owner" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2008-12-28 11:23:27Z" class="relativetime">Dec 28 '08 at 11:23</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/48096/scott"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/f31ecf0f6fa487fd1b59f9f80132f6a1.png" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/48096/scott">Scott</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">676</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="13 silver badges"><span class="badge2"></span><span class="badgecount">13</span></span><span title="23 bronze badges"><span class="badge3"></span><span class="badgecount">23</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-396092" class="comments " data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+
+    <tr id="comment-222519" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">That''ll work, but you'll 
+generally want your #includes before any other code (except the include 
+guards), so move the forward declaration of B down after the #include 
+and all should be well. And yes, forward declarations are the standard 
+way to resolve this.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/33213/jalf" title="140471 reputation" class="comment-user">jalf</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:28:59Z" class="relativetime-clean">Dec 28 '08 at 11:28</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-227158" class="comment ">
+        <td class="comment-actions">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                <span title="number of 'useful comment' votes received" class="cool">1</span>
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">No this is not the solution, 
+You have forward declared B and then also included B.h which obviates 
+the forward declare. It is A you want to forward declare in B.h with no 
+include of A.h. Inorder to have an instance of B in A you do have to 
+include B.h. Konrad has the right answer.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/14964/roger-nelson" title="1111 reputation" class="comment-user">Roger Nelson</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-31 00:11:05Z" class="relativetime-clean">Dec 31 '08 at 0:11</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-396092" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</a>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="401504"></a>
+<div id="answer-401504" class="answer" data-answerid="401504">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="401504" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">1</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text">
+            <p>In such situations, i create a common header to be included in all sources with forward declarations:</p>
+
+<pre><code>#ifndef common_hpp
+#define common_hpp
+
+class A;
+class B;
+
+#endif
+</code></pre>
+
+<p>Then the individual class header files typically don't need any 
+#includes to reference other classes, if all that's needed are pointers 
+or references to those classes.  Half the time though there are other 
+goodies in those headers, but at least any problem with circular 
+references are solved with common.hpp</p>
+
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/401504/2727738" title="short permalink to this answer" class="short-link" id="link-post-401504">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/401504/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info user-hover">
+    <div class="user-action-time">
+        answered <span title="2008-12-30 21:03:46Z" class="relativetime">Dec 30 '08 at 21:03</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/10468/darenw"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/f21uW.jpg" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/10468/darenw">DarenW</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">7,697</span><span title="4 gold badges"><span class="badge1"></span><span class="badgecount">4</span></span><span title="22 silver badges"><span class="badge2"></span><span class="badgecount">22</span></span><span title="54 bronze badges"><span class="badge3"></span><span class="badgecount">54</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-401504" class="comments  dno" data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+					    <tr><td></td><td></td></tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-401504" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</a>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="396125"></a>
+<div id="answer-396125" class="answer" data-answerid="396125">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="396125" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">0</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text">
+            <p>Some compilers (inc. gcc) also support <em>#pragma once</em> however the 'include guards' idiom in your question is the usual practice.</p>
+
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/396125/2727738" title="short permalink to this answer" class="short-link" id="link-post-396125">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/396125/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2008-12-28 12:20:55Z" class="relativetime">Dec 28 '08 at 12:20</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/42404/frankodwyer"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/cce9d0b6ace7cf2bbb43d8031bdf5717.jpg" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/42404/frankodwyer">frankodwyer</a><br>
+        <span class="reputation-score" title="reputation score " dir="ltr">9,372</span><span title="7 gold badges"><span class="badge1"></span><span class="badgecount">7</span></span><span title="38 silver badges"><span class="badge2"></span><span class="badgecount">38</span></span><span title="65 bronze badges"><span class="badge3"></span><span class="badgecount">65</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-396125" class="comments  dno" data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+					    <tr><td></td><td></td></tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-396125" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</a>
+    </td>
+</tr>    </tbody></table>
+</div>
+
+  
+<a name="396089"></a>
+<div id="answer-396089" class="answer" data-answerid="396089">
+    <table>
+        <tbody><tr>
+            <td class="votecell">
+                
+
+<div class="vote">
+    <input name="_id_" value="396089" type="hidden">
+    <a class="vote-up-off" title="This answer is useful (click again to undo)">up vote</a>
+    <span class="vote-count-post ">0</span>
+    <a class="vote-down-off" title="This answer is not useful (click again to undo)">down vote</a>
+    
+
+
+</div>
+
+            </td>
+            
+
+
+<td class="answercell">
+    <div class="post-text">
+            <p>I doubt that this can be done.  You're not talking about calling two <em>functions</em> from inside each other recursively, but rather of putting two <em>objects</em>
+ one inside the other recursively.  Think about putting a house with a 
+picture of a house with a picture of a house etc...  This will take up 
+an infinite amount of space because you'll have an infinite number of 
+houses and pictures.</p>
+
+<p>What you <em>can</em> do is have each of <code>A</code> and <code>B</code> include either pointers or references to each other.</p>
+
+    </div>
+    <table class="fw">
+    <tbody><tr>
+    <td class="vt">
+<div class="post-menu"><a href="http://stackoverflow.com/a/396089/2727738" title="short permalink to this answer" class="short-link" id="link-post-396089">share</a><span class="lsep">|</span><a href="http://stackoverflow.com/posts/396089/edit" class="suggest-edit-post" title="revise and improve this post">edit</a></div>                    </td>
+    <td class="post-signature" align="right">
+<div class="user-info ">
+    <div class="user-action-time">
+        <a href="http://stackoverflow.com/posts/396089/revisions" title="show all edits to this post">edited <span title="2008-12-28 11:27:19Z" class="relativetime">Dec 28 '08 at 11:27</span></a>
+    </div>
+    <div class="user-gravatar32">
+        
+    </div>
+    <div class="user-details">
+        <br>
+        
+    </div>
+</div>    </td>
+            
+
+
+    <td class="post-signature" align="right">   
+       
+
+    <div class="user-info ">
+    <div class="user-action-time">
+        answered <span title="2008-12-28 11:18:41Z" class="relativetime">Dec 28 '08 at 11:18</span>
+    </div>
+    <div class="user-gravatar32">
+        <a href="http://stackoverflow.com/users/1084/nathan-fellman"><div class="gravatar-wrapper-32"><img src="recursion%20-%20Headers%20Including%20Each%20Other%20in%20C++%20-%20Stack%20Overflow_files/898c2217a5457bdef0a0ed58283010dc.png" alt=""></div></a>
+    </div>
+    <div class="user-details">
+        <a href="http://stackoverflow.com/users/1084/nathan-fellman">Nathan Fellman</a><br>
+        <span class="reputation-score" title="reputation score 30727" dir="ltr">30.7k</span><span title="37 gold badges"><span class="badge1"></span><span class="badgecount">37</span></span><span title="140 silver badges"><span class="badge2"></span><span class="badgecount">140</span></span><span title="219 bronze badges"><span class="badge3"></span><span class="badgecount">219</span></span>
+    </div>
+</div>
+    </td>
+    </tr>
+    </tbody></table>
+</td>
+        </tr>
+        
+<tr>
+    <td class="votecell"></td>
+    <td>
+	    <div id="comments-396089" class="comments " data-localized="true">
+		    <table>
+			    <tbody data-remaining-comments-count="0" data-addlink-html="add comment" data-addlink-disabled="true">
+
+    <tr id="comment-222517" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">True, except that in the code
+ he posted, A.b is a reference to B, so it's just having a house inside a
+ house, and the address of the outer house inside the inner one. Which 
+takes finite space. ;)</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/33213/jalf" title="140471 reputation" class="comment-user">jalf</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:27:05Z" class="relativetime-clean">Dec 28 '08 at 11:27</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-222518" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">Er, the other way around, of course. B.a is a reference to A.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/33213/jalf" title="140471 reputation" class="comment-user">jalf</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:27:48Z" class="relativetime-clean">Dec 28 '08 at 11:27</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+    <tr id="comment-222520" class="comment ">
+        <td>
+            <table>
+                <tbody>
+                    <tr>
+                        <td class=" comment-score">
+                                &nbsp;&nbsp;
+                        </td>
+                        <td>
+                                &nbsp;
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td class="comment-text">
+            <div style="display: block;" class="comment-body">
+                <span class="comment-copy">hmmm... you're right.  I missed that detail.</span>
+                –&nbsp;
+                    <a href="http://stackoverflow.com/users/1084/nathan-fellman" title="30727 reputation" class="comment-user">Nathan Fellman</a>
+                <span class="comment-date" dir="ltr"><span title="2008-12-28 11:29:49Z" class="relativetime-clean">Dec 28 '08 at 11:29</span></span>
+                                                                            </div>
+                    </td>
+    </tr>
+			    </tbody>
+		    </table>
+	    </div>
+			<a id="comments-link-396089" data-rep="50" data-reg="true" class="comments-link disabled-link" title="Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">add comment</a>
+    </td>
+</tr>    </tbody></table>
+</div>
+									<a name="new-answer"></a>
+						<form id="post-form" action="/questions/396084/answer/submit" method="post" class="post-form">
+						    <input id="post-id" value="396084" type="hidden">
+                            <input id="qualityBanWarningShown" name="qualityBanWarningShown" value="false" type="hidden">
+							<h2 class="space">Your Answer</h2>
+
+
+
+    
+
+<script>
+    StackExchange.ready(function() {
+        initTagRenderer("".split(" "), "".split(" "));
+         
+        prepareEditor({
+            heartbeatType: 'answer',
+            bindNavPrevention: true,
+            postfix: "",
+            onDemand: false,
+            discardSelector: ".discard-answer"
+            ,immediatelyShowMarkdownHelp:true
+        });
+        
+
+    });  
+</script>
+
+
+<div id="post-editor" class="post-editor">
+
+    <div style="position: relative;">     
+        <div class="wmd-container">
+            <div id="wmd-button-bar" class="wmd-button-bar"></div>
+            <textarea id="wmd-input" class="wmd-input" name="post-text" cols="92" rows="15" tabindex="101" data-min-length=""></textarea>
+        </div>
+    </div>
+
+    <div class="fl" style="margin-top: 8px; height:24px;">&nbsp;</div>
+    <div id="draft-saved" class="draft-saved community-option fl" style="margin-top: 8px; height:24px; display:none;">draft saved</div>
+
+    <div id="draft-discarded" class="draft-discarded community-option fl" style="margin-top: 8px; height:24px; display:none;">draft discarded</div>
+
+
+
+    <div id="wmd-preview" class="wmd-preview"></div>
+    <div></div>
+    <div class="edit-block">
+        <input id="fkey" name="fkey" value="c46c988e240e53b446863bc603cead8a" type="hidden">
+        <input id="author" name="author" type="text">
+    </div>
+</div>
+							<div style="position: relative;">
+								
+							</div>
+           
+															<div class="form-submit cbt">
+									<input id="submit-button" value="Post Your Answer" tabindex="110" type="submit">
+									<a href="#" class="discard-answer dno">discard</a>
+								</div>
+						</form>
+
+
+
+						<h2 class="bottom-notice" data-loc="1">
+Not the answer you're looking for?							Browse other questions tagged <a href="http://stackoverflow.com/questions/tagged/c%2b%2b" class="post-tag" title="show questions tagged 'c++'" rel="tag">c++</a> <a href="http://stackoverflow.com/questions/tagged/recursion" class="post-tag" title="show questions tagged 'recursion'" rel="tag">recursion</a> <a href="http://stackoverflow.com/questions/tagged/header" class="post-tag" title="show questions tagged 'header'" rel="tag">header</a> <a href="http://stackoverflow.com/questions/tagged/include" class="post-tag" title="show questions tagged 'include'" rel="tag">include</a>  or <a href="http://stackoverflow.com/questions/ask">ask your own question</a>.						</h2>
+			</div>
+		</div>
+				<div id="sidebar" class="show-votes">
+
+
+
+<script>
+    window.showNewUser = false;
+
+</script>
+
+<div class="module newuser newuser-greeting" id="newuser-box" style="display:none;">
+    <h4>Hello World!</h4>
+    <div>
+        <p>This is a collaboratively edited question and answer site for <b>professional and enthusiast programmers</b>. It's 100% free, no registration required.</p><p>Got a question about the site itself? <a href="http://meta.stackoverflow.com/">meta</a> is the place to talk about things like what questions are appropriate, what tags we should use, etc.</p>
+        <p class="ar">
+                <a href="http://stackoverflow.com/about?mnu=1">about »</a>&nbsp;&nbsp;&nbsp;
+            <a href="http://stackoverflow.com/help?mnu=1">help »</a>
+                &nbsp; <a href="http://meta.stackoverflow.com/">meta »</a>
+        </p>
+    </div>
+</div>
+    <script>
+    if (showNewUser) {
+        document.getElementById('newuser-box').style.display = '';
+    }
+    </script>						    <div class="module question-stats">
+			        <table id="qinfo">
+			            <tbody><tr>
+			                <td>
+			                    <p class="label-key">asked</p>
+			                </td>
+			                <td style="padding-left: 10px">
+			                    <p class="label-key" title="2008-12-28 11:13:39Z"><b>5 years ago</b></p>
+			                </td>
+			            </tr>
+			            <tr>
+			                <td>
+			                    <p class="label-key">viewed</p>
+			                </td>
+
+			                <td style="padding-left: 10px">
+			                    <p class="label-key">
+			                        <b>13444 times</b>
+			                    </p>
+			                </td>
+			            </tr>
+			                <tr>
+			                    <td>
+			                        <p class="label-key">active</p>
+			                    </td>
+			                    <td style="padding-left: 10px">
+			                        <p class="label-key"><b><a href="http://stackoverflow.com/questions/396084/headers-including-each-other-in-c?lastactivity" class="lastactivity-link" title="2011-05-17 19:32:50Z">3 years ago</a></b></p>
+			                    </td>
+			                </tr>
+			        </tbody></table>
+			    </div>
+			<div class="module community-bulletin" data-tracker="cb=1">
+    <h4>Community Bulletin</h4>
+    <div class="related">
+
+            <div class="spacer">
+                <div class="bulletin-item-type"><a href="http://meta.stackoverflow.com/" class="event-date" target="_blank">meta</a></div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/259879/looks-good-instead-of-looks-ok-still-remaining" class="question-hyperlink" target="_blank">“Looks good” instead of “Looks OK” still remaining</a>
+                </div>
+                <br class="cbt">
+            </div>
+            <div class="spacer">
+                <div class="bulletin-item-type"><a href="http://meta.stackoverflow.com/" class="event-date" target="_blank">meta</a></div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/258685/should-we-have-a-more-specific-close-reason-for-vague-debugging-questions" class="question-hyperlink" target="_blank">Should we have a more specific close reason for vague debugging questions?</a>
+                </div>
+                <br class="cbt">
+            </div>
+            <div class="spacer">
+                <div class="bulletin-item-type"><a href="http://meta.stackoverflow.com/" class="event-date" target="_blank">meta</a></div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/258699/the-stack-overflow-homepage-is-over-emphasizing-bad-questions-and-a-proposed-so" class="question-hyperlink" target="_blank">The Stack Overflow homepage is over-emphasizing bad questions (and a proposed…</a>
+                </div>
+                <br class="cbt">
+            </div>
+            <div class="spacer">
+                <div class="bulletin-item-type"><a href="http://meta.stackoverflow.com/" class="event-date" target="_blank">meta</a></div>
+                <div class="bulletin-item-content">
+                    <a href="http://meta.stackoverflow.com/questions/258762/should-i-clean-up-old-questions" class="question-hyperlink" target="_blank">Should I 'clean up' *old* questions?</a>
+                </div>
+                <br class="cbt">
+            </div>
+    </div>
+</div>			
+			<div class="everyonelovesstackoverflow" id="careers2">
+        </div>
+    <div id="hireme">
+        <script>
+window.careers_adurl="//careers.stackoverflow.com/ad/companyjs",window.careers_cssurl="//cdn-careers.sstatic.net/careers/gethired/company.min.css?v=2d24dea200a6",window.careers_cssurl2="//cdn-careers.sstatic.net/careers/gethired/sidebar.min.css?v=88f3fd5e2263",window.careers_adselector="#hireme",StackExchange.ready(function(){$.ajax({url:"//cdn-careers.sstatic.net/careers/gethired/company-loader.min.js?v=d38fcbba30f7",dataType:"script",cache:!1})});        </script>
+    </div>
+			  
+    
+            <div class="module sidebar-linked">
+	<h4 id="h-linked">Linked</h4>
+	<div class="linked" data-tracker="lq=1">
+<div class="spacer">
+	<a href="http://stackoverflow.com/q/6441141" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes  default">1</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/6441141/how-do-you-prevent-continuously-looping-include-statements" class="question-hyperlink">How do you prevent continuously looping #include statements?</a>
+</div><div class="spacer">
+	<a href="http://stackoverflow.com/q/15860665" title="Vote score (upvotes - downvotes)">
+		<div class="answer-votes answered-accepted default">-1</div>
+	</a>
+	<a href="http://stackoverflow.com/questions/15860665/class-reference-to-istelf" class="question-hyperlink">class reference to istelf</a>
+</div>			</div>
+</div>
+
+				<div class="module sidebar-related">
+					<h4 id="h-related">Related</h4>
+                    <div class="related js-gps-related-questions" data-tracker="rq=1">
+                        <div class="spacer">
+<a href="http://stackoverflow.com/q/4632453" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">0
+    </div>
+</a><a href="http://stackoverflow.com/questions/4632453/undefined-reference-while-including-header-in-c" class="question-hyperlink">Undefined reference while including header in C++</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/5174019" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">2
+    </div>
+</a><a href="http://stackoverflow.com/questions/5174019/problems-including-jsoncpp-headers" class="question-hyperlink">Problems including jsonCpp headers</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/5559432" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">5
+    </div>
+</a><a href="http://stackoverflow.com/questions/5559432/what-order-do-i-include-header-files-in" class="question-hyperlink">What order do I include header files in?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/6041308" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">0
+    </div>
+</a><a href="http://stackoverflow.com/questions/6041308/vs-2008-some-parts-of-header-not-included" class="question-hyperlink">VS 2008 - some parts of header not included?</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/8526819" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">5
+    </div>
+</a><a href="http://stackoverflow.com/questions/8526819/c-header-files-including-each-other-mutually" class="question-hyperlink">c++ header files including each other mutually</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/9191905" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">1
+    </div>
+</a><a href="http://stackoverflow.com/questions/9191905/c-header-files-including-each-other" class="question-hyperlink">C++ header files including each other</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/10394980" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">0
+    </div>
+</a><a href="http://stackoverflow.com/questions/10394980/headers-needing-each-other" class="question-hyperlink">Headers needing each other</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/20425058" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">0
+    </div>
+</a><a href="http://stackoverflow.com/questions/20425058/header-files-including-each-other" class="question-hyperlink">Header Files Including each other</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/23097743" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes default">-1
+    </div>
+</a><a href="http://stackoverflow.com/questions/23097743/difference-between-memory-standard-header-and-an-include-file" class="question-hyperlink">Difference between memory standard header and an include file</a>
+</div>
+<div class="spacer">
+<a href="http://stackoverflow.com/q/24022060" title="Vote score (upvotes - downvotes)">
+    <div class="answer-votes answered-accepted default">-2
+    </div>
+</a><a href="http://stackoverflow.com/questions/24022060/order-of-header-files-being-included-in-a-c-app" class="question-hyperlink">Order of Header files being included in a C++ app</a>
+</div>
+
+                    </div>
+				</div>
+            
+<div id="hot-network-questions" class="module">
+    <h4>
+        <a href="http://stackexchange.com/questions?tab=hot" class="js-gps-track" data-gps-track="posts_hot_network.click({ item_type:1, location:11 })">
+            Hot Network Questions
+        </a>
+    </h4>
+    <ul>
+            <li>
+                <div class="favicon favicon-physics" title="Physics Stack Exchange"></div><a href="http://physics.stackexchange.com/questions/117101/can-the-sun-cast-a-shadow" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Can the sun cast a shadow?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-superuser" title="Super User"></div><a href="http://superuser.com/questions/763879/why-are-special-characters-such-as-carriage-return-represented-as-m" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:3 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why are special characters such as "carriage return" represented as "^M"?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-math" title="Mathematics Stack Exchange"></div><a href="http://math.stackexchange.com/questions/824175/how-to-explain-the-perpendicularity-of-two-lines-to-a-high-school-student" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:69 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to explain the perpendicularity of two lines to a High School student?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-math" title="Mathematics Stack Exchange"></div><a href="http://math.stackexchange.com/questions/827450/splitting-out-1-x4-what-is-this-called-so-i-can-read-more-about-it" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:69 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Splitting out (1-x^4), what is this called so I can read more about it?
+                </a>
+
+            </li>
+            <li>
+                <div class="favicon favicon-graphicdesign" title="Graphic Design Stack Exchange"></div><a href="http://graphicdesign.stackexchange.com/questions/33362/how-to-change-color-of-multiple-text-objects-at-once" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:174 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How to change color of multiple text objects at once?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-diy" title="Home Improvement Stack Exchange"></div><a href="http://diy.stackexchange.com/questions/43813/is-there-a-trick-to-getting-round-hvac-duct-pieces-to-fit-together" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:73 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Is there a trick to getting round HVAC duct pieces to fit together
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-tex" title="TeX - LaTeX Stack Exchange"></div><a href="http://tex.stackexchange.com/questions/183882/drawing-konigsberg-landscape-showing-the-bridges" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Drawing Königsberg landscape showing the bridges
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-academia" title="Academia Stack Exchange"></div><a href="http://academia.stackexchange.com/questions/23099/preventing-leaking-exam-papers-cheating-using-phone-cameras" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:415 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Preventing leaking exam papers/cheating using phone cameras?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-physics" title="Physics Stack Exchange"></div><a href="http://physics.stackexchange.com/questions/118448/what-does-it-mean-to-solve-an-equation" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What does it mean to "solve an equation"?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-apple" title="Ask Different"></div><a href="http://apple.stackexchange.com/questions/134338/why-does-the-icon-of-a-pc-show-a-blue-screen" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:118 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Why does the icon of a PC show a blue screen?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/58955/what-is-this-canadian-doctor-who-audio-all-about-is-the-cbc-really-picking-it-u" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is this Canadian Doctor Who audio all about? Is the CBC really picking it up in January
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-math" title="Mathematics Stack Exchange"></div><a href="http://math.stackexchange.com/questions/827675/simplify-this-expression-involving-gamma-function" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:69 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Simplify this expression involving Gamma function
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/58927/did-sauron-ever-find-out-that-isengard-was-attacked" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Did Sauron ever find out that Isengard was attacked?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-aviation" title="Aviation Stack Exchange"></div><a href="http://aviation.stackexchange.com/questions/5255/a-way-to-avoid-exhaust-fumes-when-landing" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:528 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    A way to avoid exhaust fumes when landing?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stackoverflow" title="Stack Overflow"></div><a href="http://stackoverflow.com/questions/24112259/finding-k-closest-numbers-to-a-given-number" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:1 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    finding k closest numbers to a given number
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/58902/short-story-where-a-box-contains-a-miniature-version-of-the-earth" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Short story where a box contains a miniature version of the Earth
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-codegolf" title="Programming Puzzles &amp; Code Golf Stack Exchange"></div><a href="http://codegolf.stackexchange.com/questions/30322/make-it-look-like-im-working" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Make it look like I'm working
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-magento" title="Magento Stack Exchange"></div><a href="http://magento.stackexchange.com/questions/23500/show-a-static-block-just-when-visitors-geoip-is-from-gb" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:479 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    show a static block just when visitor's GeoIP is from GB
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-scifi" title="Science Fiction &amp; Fantasy Stack Exchange"></div><a href="http://scifi.stackexchange.com/questions/58952/how-old-is-gandalf" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    How old is Gandalf?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-ux" title="User Experience Stack Exchange"></div><a href="http://ux.stackexchange.com/questions/58456/layout-for-on-screen-hexadecimal-keyboard" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:102 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Layout for on-screen hexadecimal keyboard
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-english" title="English Language &amp; Usage Stack Exchange"></div><a href="http://english.stackexchange.com/questions/176776/a-single-word-name-for-the-i-dont-know-gesture" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:97 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    A single word name for the "I don't know" gesture
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-serverfault" title="Server Fault"></div><a href="http://serverfault.com/questions/603770/make-esxi-vm-use-client-network" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:2 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    Make ESXi VM use client network
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-salesforce" title="Salesforce Stack Exchange"></div><a href="http://salesforce.stackexchange.com/questions/39956/what-is-the-best-workaround-for-the-20-field-history-tracking-cap" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:459 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the best workaround for the 20 field history tracking cap?
+                </a>
+
+            </li>
+            <li class="dno js-hidden">
+                <div class="favicon favicon-stats" title="Cross Validated"></div><a href="http://stats.stackexchange.com/questions/101590/what-is-the-name-of-the-statistical-fallacy-whereby-outcomes-of-previous-coin-fl" class="js-gps-track" data-gps-track="site.switch({ item_type:11, target_site:65 }); posts_hot_network.click({ item_type:2, location:11 })">
+                    What is the name of the statistical fallacy whereby 
+outcomes of previous coin flips influence beliefs about subsequent coin 
+flips?
+                </a>
+
+            </li>
+    </ul>
+
+        <a href="#" class="show-more js-show-more js-gps-track" data-gps-track="posts_hot_network.click({ item_type:3, location:11 })">
+            more hot questions
+        </a>
+</div>
+		</div>
+	
+<div id="feed-link">
+    <div id="feed-link-text">
+        <a href="http://stackoverflow.com/feeds/question/396084" title="feed of this question and its answers">
+            <span class="feed-icon"></span>question feed
+        </a>
+    </div>
+</div>	<script>
+StackExchange.ready(function(){$.get('/posts/396084/ivc/6803');});
+</script>
+<noscript>
+    <div><img src="/posts/396084/ivc/6803" class="dno" alt="" width="0" height="0"></div>
+</noscript><div style="display:none" id="prettify-lang">lang-cpp</div></div>
+
+
+
+        </div>
+    </div>
+    <div id="footer" class="categories">
+        <div class="footerwrap">
+            <div id="footer-menu">
+                <div class="top-footer-links">
+                        <a href="http://stackoverflow.com/about">about</a>
+                    <a href="http://stackoverflow.com/help">help</a>
+                    <a href="http://blog.stackoverflow.com/?blb=1">blog</a>
+                        <a href="http://chat.stackoverflow.com/">chat</a>
+                    <a href="http://data.stackexchange.com/">data</a>
+                    <a href="http://stackexchange.com/legal">legal</a>
+                    <a href="http://stackexchange.com/legal/privacy-policy">privacy policy</a>
+                    <a href="http://stackexchange.com/about/hiring">jobs</a>
+                    <a href="http://engine.adzerk.net/r?e=eyJhdiI6NDE0LCJhdCI6MjAsImNtIjo5NTQsImNoIjoxMTc4LCJjciI6Mjc3NiwiZG0iOjQsImZjIjoyODYyLCJmbCI6Mjc1MSwibnciOjIyLCJydiI6MCwicHIiOjExNSwic3QiOjAsInVyIjoiaHR0cDovL3N0YWNrb3ZlcmZsb3cuY29tL2Fib3V0L2NvbnRhY3QiLCJyZSI6MX0&amp;s=hRods5B22XvRBwWIwtIMekcyNF8">advertising info</a>
+
+                    <a onclick='StackExchange.switchMobile("on")'>mobile</a>
+                    <b><a href="http://stackoverflow.com/contact">contact us</a></b>
+                        <b><a href="http://meta.stackoverflow.com/">feedback</a></b>
+                    
+                </div>
+                <div id="footer-sites">
+                    <table>
+    <tbody><tr>
+            <th colspan="3">
+                Technology
+            </th>
+            <th>
+                Life / Arts
+            </th>
+            <th>
+                Culture / Recreation
+            </th>
+            <th>
+                Science
+            </th>
+            <th>
+                Other
+            </th>
+    </tr>
+    <tr>
+            <td>
+                <ol>
+                        <li><a href="http://stackoverflow.com/" title="professional and enthusiast programmers">Stack Overflow</a></li>
+                        <li><a href="http://serverfault.com/" title="professional system and network administrators">Server Fault</a></li>
+                        <li><a href="http://superuser.com/" title="computer enthusiasts and power users">Super User</a></li>
+                        <li><a href="http://webapps.stackexchange.com/" title="power users of web applications">Web Applications</a></li>
+                        <li><a href="http://askubuntu.com/" title="Ubuntu users and developers">Ask Ubuntu</a></li>
+                        <li><a href="http://webmasters.stackexchange.com/" title="pro webmasters">Webmasters</a></li>
+                        <li><a href="http://gamedev.stackexchange.com/" title="professional and independent game developers">Game Development</a></li>
+                        <li><a href="http://tex.stackexchange.com/" title="users of TeX, LaTeX, ConTeXt, and related typesetting systems">TeX - LaTeX</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="http://programmers.stackexchange.com/" title="professional programmers interested in conceptual questions about software development">Programmers</a></li>
+                        <li><a href="http://unix.stackexchange.com/" title="users of Linux, FreeBSD and other Un*x-like operating systems.">Unix &amp; Linux</a></li>
+                        <li><a href="http://apple.stackexchange.com/" title="power users of Apple hardware and software">Ask Different (Apple)</a></li>
+                        <li><a href="http://wordpress.stackexchange.com/" title="WordPress developers and administrators">WordPress Development</a></li>
+                        <li><a href="http://gis.stackexchange.com/" title="cartographers, geographers and GIS professionals">Geographic Information Systems</a></li>
+                        <li><a href="http://electronics.stackexchange.com/" title="electronics and electrical engineering professionals, students, and enthusiasts">Electrical Engineering</a></li>
+                        <li><a href="http://android.stackexchange.com/" title="enthusiasts and power users of the Android operating system">Android Enthusiasts</a></li>
+                        <li><a href="http://security.stackexchange.com/" title="Information security professionals">Information Security</a></li>
+                            </ol></td><td><ol>
+                        <li><a href="http://dba.stackexchange.com/" title="database professionals who wish to improve their database skills and learn from others in the community">Database Administrators</a></li>
+                        <li><a href="http://drupal.stackexchange.com/" title="Drupal developers and administrators">Drupal Answers</a></li>
+                        <li><a href="http://sharepoint.stackexchange.com/" title="SharePoint enthusiasts">SharePoint</a></li>
+                        <li><a href="http://ux.stackexchange.com/" title="user experience researchers and experts">User Experience</a></li>
+                        <li><a href="http://mathematica.stackexchange.com/" title="users of Mathematica">Mathematica</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#technology" class="more">
+                                more (14)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://photo.stackexchange.com/" title="professional, enthusiast and amateur photographers">Photography</a></li>
+                        <li><a href="http://scifi.stackexchange.com/" title="science fiction and fantasy enthusiasts">Science Fiction &amp; Fantasy</a></li>
+                        <li><a href="http://graphicdesign.stackexchange.com/" title="professional graphic designers and non-designers trying to do their own graphic design">Graphic Design</a></li>
+                        <li><a href="http://cooking.stackexchange.com/" title="professional and amateur chefs">Seasoned Advice (cooking)</a></li>
+                        <li><a href="http://diy.stackexchange.com/" title="contractors and serious DIYers">Home Improvement</a></li>
+                        <li><a href="http://money.stackexchange.com/" title="people who want to be financially literate">Personal Finance &amp; Money</a></li>
+                        <li><a href="http://academia.stackexchange.com/" title="academics and those enrolled in higher education">Academia</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#lifearts" class="more">
+                                more (10)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://english.stackexchange.com/" title="linguists, etymologists, and serious English language enthusiasts">English Language &amp; Usage</a></li>
+                        <li><a href="http://skeptics.stackexchange.com/" title="scientific skepticism">Skeptics</a></li>
+                        <li><a href="http://judaism.stackexchange.com/" title="those who base their lives on Jewish law and tradition and anyone interested in learning more">Mi Yodeya (Judaism)</a></li>
+                        <li><a href="http://travel.stackexchange.com/" title="road warriors and seasoned travelers">Travel</a></li>
+                        <li><a href="http://christianity.stackexchange.com/" title="committed Christians, experts in Christianity and those interested in learning more">Christianity</a></li>
+                        <li><a href="http://gaming.stackexchange.com/" title="passionate videogamers on all platforms">Arqade (gaming)</a></li>
+                        <li><a href="http://bicycles.stackexchange.com/" title="people who build and repair bicycles, people who train cycling, or commute on bicycles">Bicycles</a></li>
+                        <li><a href="http://rpg.stackexchange.com/" title="gamemasters and players of tabletop, paper-and-pencil role-playing games">Role-playing Games</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#culturerecreation" class="more">
+                                more (21)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://math.stackexchange.com/" title="people studying math at any level and professionals in related fields">Mathematics</a></li>
+                        <li><a href="http://stats.stackexchange.com/" title="people interested in statistics, machine learning, data analysis, data mining, and data visualization">Cross Validated (stats)</a></li>
+                        <li><a href="http://cstheory.stackexchange.com/" title="theoretical computer scientists and researchers in related fields">Theoretical Computer Science</a></li>
+                        <li><a href="http://physics.stackexchange.com/" title="active researchers, academics and students of physics">Physics</a></li>
+                        <li><a href="http://mathoverflow.net/" title="professional mathematicians">MathOverflow</a></li>
+                    
+                        <li>
+                            <a href="http://stackexchange.com/sites#science" class="more">
+                                more (7)
+                            </a>
+                        </li>
+                </ol>
+            </td>
+            <td>
+                <ol>
+                        <li><a href="http://stackapps.com/" title="apps, scripts, and development with the Stack Exchange API">Stack Apps</a></li>
+                        <li><a href="http://meta.stackexchange.com/" title="meta-discussion of the Stack Exchange family of Q&amp;A websites">Meta Stack Exchange</a></li>
+                        <li><a href="http://area51.stackexchange.com/" title="proposing new sites in the Stack Exchange network">Area 51</a></li>
+                        <li><a href="http://careers.stackoverflow.com/">Stack Overflow Careers</a></li>
+                    
+                </ol>
+            </td>
+    </tr>
+</tbody></table>
+                </div>
+            </div>
+
+            <div id="copyright">
+                site design / logo © 2014 stack exchange inc; user contributions licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0/" rel="license">cc by-sa 3.0</a> 
+                with <a href="http://blog.stackoverflow.com/2009/06/attribution-required/" rel="license">attribution required</a>
+            </div>
+            <div id="svnrev">
+                rev 2014.6.9.1647
+            </div>
+            
+        </div>
+    </div>
+    <noscript>
+        <div id="noscript-warning">Stack Overflow works best with JavaScript enabled<img src="http://pixel.quantserve.com/pixel/p-c1rF4kxgLUzNc.gif" alt="" class="dno"></div>
+    </noscript>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () { (i[r].q = i[r].q || []).push(arguments) }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+        ga('create', 'UA-5620270-1');        
+        ga('set', 'dimension1', '3232913');         
+        ga('set', 'dimension2', '|c++|recursion|header|include|');         
+        ga('send', 'pageview');
+        var _qevents = _qevents || [],
+            _comscore = _comscore || [];
+        (function () {
+            var ssl='https:'==document.location.protocol,
+                s=document.getElementsByTagName('script')[0],
+                qc=document.createElement('script');
+            qc.async=true;
+            qc.src=(ssl?'https://secure':'http://edge')+'.quantserve.com/quant.js';
+            s.parentNode.insertBefore(qc, s);
+            var sc=document.createElement('script');
+            sc.async=true;
+            sc.src=(ssl?'https://sb':'http://b') + '.scorecardresearch.com/beacon.js';
+            s.parentNode.insertBefore(sc, s);
+        })();
+        _comscore.push({ c1: "2", c2: "17440561" });
+        _qevents.push({ qacct: "p-c1rF4kxgLUzNc" });
+    </script>        
+    
+    
+<div id="noscript-warning">Stack Overflow requires external JavaScript from another domain, which is blocked or failed to load.</div></body></html>
